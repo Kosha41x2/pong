@@ -5,8 +5,8 @@
 [ext_resource type="Script" uid="uid://cietihb0u0w8" path="res://Assets/Scripts/Walls/Goal.cs" id="3_2au82"]
 [ext_resource type="Script" uid="uid://lyi23jaxt6py" path="res://Assets/Scripts/UI/Marker.cs" id="4_8tn2x"]
 [ext_resource type="AudioStream" uid="uid://46g57c8ia0dj" path="res://Assets/Music/Main Theme.mp3" id="5_aq4fw"]
-[ext_resource type="Script" uid="uid://c8gmjow3jbold" path="res://Assets/Scripts/UI/ButtonBasics.cs" id="5_q1uvj"]
 [ext_resource type="Script" uid="uid://cd0sywak8iyg5" path="res://Assets/Scripts/UI/ToggleVisibility.cs" id="6_qs82m"]
+[ext_resource type="Script" uid="uid://c8gmjow3jbold" path="res://Assets/Scripts/UI/Button/ButtonBasics.cs" id="7_c4vo5"]
 [ext_resource type="Script" uid="uid://bi0o0xjhvt3dn" path="res://Assets/Scripts/SceneManager/SceneManager.cs" id="7_qs82m"]
 [ext_resource type="Script" uid="uid://cikbfsmytpwiw" path="res://Assets/Scripts/Settings.cs" id="9_c4vo5"]
 
@@ -87,16 +87,17 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Button" type="Button" parent="CanvasGroup/NonPausable" unique_id=1452374841]
+[node name="MenuButton" type="Button" parent="CanvasGroup/NonPausable" unique_id=1452374841 node_paths=PackedStringArray("canvasGroup")]
 layout_mode = 0
-offset_left = -37.0
-offset_top = 281.0
-offset_right = 33.0
-offset_bottom = 312.0
+offset_left = -40.0
+offset_top = 284.0
+offset_right = 40.0
+offset_bottom = 320.0
 toggle_mode = true
-text = "Settings"
-script = ExtResource("5_q1uvj")
-initialText = "Settings"
+text = "Menu"
+script = ExtResource("7_c4vo5")
+canvasGroup = NodePath("../../../Menu")
+initialText = "Menu"
 changeText = "Back"
 
 [node name="Controls" type="Control" parent="CanvasGroup" unique_id=1595482220]
@@ -136,21 +137,13 @@ parameters/looping = true
 [node name="AudioListener2D" type="AudioListener2D" parent="." unique_id=1698533789]
 current = true
 
-[node name="SceneManager" type="Node2D" parent="." unique_id=610476609 node_paths=PackedStringArray("settingsMenu")]
+[node name="SceneManager" type="Node2D" parent="." unique_id=610476609 node_paths=PackedStringArray("canvasGroups")]
 script = ExtResource("7_qs82m")
-settingsMenu = NodePath("../SettingsMenu")
+canvasGroups = [NodePath("../Menu"), NodePath("../SettingsMenu")]
 
 [node name="SettingsMenu" type="CanvasGroup" parent="." unique_id=1174195726 groups=["SettingsMenu"]]
 process_mode = 3
 visible = false
-
-[node name="ColorRect" type="ColorRect" parent="SettingsMenu" unique_id=809233112]
-offset_left = -162.0
-offset_top = -219.99998
-offset_right = -122.0
-offset_bottom = -179.99998
-scale = Vector2(8.606813, 12.352595)
-color = Color(0.41568628, 0.4392157, 1, 0.36078432)
 
 [node name="SpinBox" type="SpinBox" parent="SettingsMenu" unique_id=523452000]
 offset_left = -135.0
@@ -218,15 +211,76 @@ offset_bottom = 3.9999924
 bbcode_enabled = true
 text = "[outline_size=10] [font_size=25][color=aqua] Controls Shown"
 
+[node name="ColorRect" type="ColorRect" parent="SettingsMenu" unique_id=164441134]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -174.0
+offset_top = -222.0
+offset_right = 176.0
+offset_bottom = 253.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.41568628, 0.4392157, 1, 0.36078432)
+
+[node name="Menu" type="CanvasGroup" parent="." unique_id=1176875453]
+process_mode = 3
+scale = Vector2(1, 1.0033557)
+
+[node name="ColorRect" type="ColorRect" parent="Menu" unique_id=80188424]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = -90.0
+offset_right = 175.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.41568628, 0.4392157, 1, 0.36078432)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu" unique_id=835325000]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -143.0
+offset_top = -90.0
+offset_right = 143.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Settings" type="Button" parent="Menu/VBoxContainer" unique_id=612537097]
+layout_mode = 2
+text = "Settings"
+
+[node name="Restart" type="Button" parent="Menu/VBoxContainer" unique_id=1001741183]
+layout_mode = 2
+text = "Restart"
+
+[node name="Exit" type="Button" parent="Menu/VBoxContainer" unique_id=10674456]
+layout_mode = 2
+text = "Exit"
+
 [connection signal="UpdateValue" from="SettingsManager" to="Ball" method="OnValueUpdated"]
 [connection signal="GoalReached" from="Goal1" to="CanvasGroup/Marker" method="AddScore"]
 [connection signal="GoalReached" from="Goal2" to="CanvasGroup/Marker" method="AddScore"]
-[connection signal="toggled" from="CanvasGroup/NonPausable/Button" to="CanvasGroup/NonPausable/Button" method="OnTextChanged"]
-[connection signal="toggled" from="CanvasGroup/NonPausable/Button" to="SceneManager" method="SettingsToggle"]
+[connection signal="CanvasRequest" from="CanvasGroup/NonPausable/MenuButton" to="SceneManager" method="OnMenuRequest"]
+[connection signal="toggled" from="CanvasGroup/NonPausable/MenuButton" to="CanvasGroup/NonPausable/MenuButton" method="OnCanvasRequest"]
+[connection signal="toggled" from="CanvasGroup/NonPausable/MenuButton" to="CanvasGroup/NonPausable/MenuButton" method="OnTextChanged"]
 [connection signal="value_changed" from="SettingsMenu/SpinBox" to="SettingsManager" method="OnMaxAngleChange"]
 [connection signal="value_changed" from="SettingsMenu/SpinBox2" to="SettingsManager" method="OnMaxSpeedChange"]
 [connection signal="value_changed" from="SettingsMenu/SpinBox3" to="SettingsManager" method="OnSpeedIncreaseFactorChange"]
 [connection signal="toggled" from="SettingsMenu/ShowControlsToggle" to="CanvasGroup/Controls" method="OnToggleVisibilityButtonPressed"]
+[connection signal="pressed" from="Menu/VBoxContainer/Exit" to="SceneManager" method="OnExit"]
 
 [editable path="Player1"]
 [editable path="Player2"]

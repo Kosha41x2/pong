@@ -1,11 +1,12 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class SceneManager : Node
 {
 	private static SceneManager _instance;
 
-	[Export] CanvasGroup settingsMenu;
+	[Export] public CanvasGroup[] canvasGroups = new CanvasGroup[] { };
 
 	public static SceneManager Instance
 	{
@@ -29,10 +30,21 @@ public partial class SceneManager : Node
 		_instance = this;
 	}
 
-	public void SettingsToggle(bool value)
+	public void OnMenuRequest(CanvasGroup canvasGroup, bool value)
 	{
-		GD.Print("Settings Toggle: " + value);
-		settingsMenu.Visible = value;
-		GetTree().Paused = value;
+		foreach (CanvasGroup group in canvasGroups)
+		{
+			group.Visible = false;
+		}
+
+		canvasGroup.Visible = value;
+
+		if(canvasGroup.Visible) GetTree().Paused = true;
+		else GetTree().Paused = false;
+	}
+
+	private void OnExit()
+	{
+		GetTree().Quit();
 	}
 }
