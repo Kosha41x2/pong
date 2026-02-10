@@ -19,22 +19,30 @@ public partial class Settings : Node2D
 	[Export] public float maxSpeed = 1200f;
 	[Export] public float bounceMaxAngle = 45f;
 
-	private void OnMaxSpeedChange(float value)
+	[Export] public bool visibleControls = true;
+
+	public void OnMaxSpeedChange(float value)
 	{
 		maxSpeed = value;
 		EmitSignal(nameof(UpdateValue));
 	}
 
-	private void OnMaxAngleChange(float value)
+	public void OnMaxAngleChange(float value)
 	{
 		bounceMaxAngle = value;
 		EmitSignal(nameof(UpdateValue));
 	}
 
-	private void OnSpeedIncreaseFactorChange(float value)
+	public void OnSpeedIncreaseFactorChange(float value)
 	{
 		speedIncreaseFactor = value/100f + 1f;
 		EmitSignal(nameof(UpdateValue));
 		GD.Print("Speed Increase Factor: " + speedIncreaseFactor);
+	}
+
+	public void OnVisibleControlsToggled(bool value)
+	{
+		visibleControls = value;
+		EmitSignal(nameof(UpdateValue));
 	}
 }

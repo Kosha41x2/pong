@@ -13,7 +13,7 @@ public partial class ButtonBasics : Button
 
 	public override void _Ready()
 	{
-		Text = initialText;
+		Text = initialText;	
 	}
 
 	private void OnTextChanged(bool value)
@@ -30,5 +30,12 @@ public partial class ButtonBasics : Button
 	private void OnCanvasRequest()
 	{
 		EmitSignal(nameof(CanvasRequest), canvasGroup, true);
+	}
+
+	private void SetButtonPressed(bool value)
+	{
+		this.ButtonPressed = value;
+		OnTextChanged(value);
+		if(canvasGroup != null) OnCanvasRequest(value);
 	}
 }

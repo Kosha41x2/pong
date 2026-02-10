@@ -7,211 +7,26 @@
 [ext_resource type="AudioStream" uid="uid://46g57c8ia0dj" path="res://Assets/Music/Main Theme.mp3" id="5_aq4fw"]
 [ext_resource type="Script" uid="uid://cd0sywak8iyg5" path="res://Assets/Scripts/UI/ToggleVisibility.cs" id="6_qs82m"]
 [ext_resource type="Script" uid="uid://c8gmjow3jbold" path="res://Assets/Scripts/UI/Button/ButtonBasics.cs" id="7_c4vo5"]
-[ext_resource type="Script" uid="uid://bi0o0xjhvt3dn" path="res://Assets/Scripts/SceneManager/SceneManager.cs" id="7_qs82m"]
-[ext_resource type="Script" uid="uid://cikbfsmytpwiw" path="res://Assets/Scripts/Settings.cs" id="9_c4vo5"]
+[ext_resource type="Script" uid="uid://bo8s2f24vt8g5" path="res://Assets/Scripts/Poxies/SceneProxy.cs" id="9_c4vo5"]
+[ext_resource type="Script" uid="uid://buj7uodete2nc" path="res://Assets/Scripts/Poxies/SettingsProxy.cs" id="9_vwb7u"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2au82"]
 size = Vector2(1205, 33)
 
 [node name="Node2D" type="Node2D" unique_id=2034202261]
 
-[node name="SettingsManager" type="Node2D" parent="." unique_id=1464212651]
-script = ExtResource("9_c4vo5")
-
 [node name="Camera" type="Node2D" parent="." unique_id=572821116]
 
 [node name="Camera2D" type="Camera2D" parent="Camera" unique_id=1319529317]
 
-[node name="Player1" parent="." unique_id=349456793 instance=ExtResource("1_njov2")]
-position = Vector2(500, 0)
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=467289503]
+follow_viewport_enabled = true
 
-[node name="Player2" parent="." unique_id=1987110974 instance=ExtResource("1_njov2")]
-position = Vector2(-499, 0)
-
-[node name="Movement" parent="Player2" index="0" unique_id=2073416182]
-inputSuffix = "p2"
-
-[node name="Sprite2D" parent="Player2" index="2" unique_id=34132164]
-flip_h = true
-
-[node name="Ball" parent="." unique_id=149115935 instance=ExtResource("2_njov2")]
-
-[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=948942339]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=210007001]
-position = Vector2(9, 340)
-shape = SubResource("RectangleShape2D_2au82")
-
-[node name="StaticBody2D2" type="StaticBody2D" parent="." unique_id=2131600118]
-position = Vector2(-3, -681)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2" unique_id=1471987484]
-position = Vector2(9, 340)
-shape = SubResource("RectangleShape2D_2au82")
-
-[node name="Goal1" type="Area2D" parent="." unique_id=1504704826]
-position = Vector2(598, -151)
-rotation = 1.5707964
-script = ExtResource("3_2au82")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Goal1" unique_id=146575461]
-shape = SubResource("RectangleShape2D_2au82")
-
-[node name="Goal2" type="Area2D" parent="." unique_id=258302823]
-position = Vector2(-598, -37)
-rotation = 1.5707964
-script = ExtResource("3_2au82")
-PlayerNumber = 1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Goal2" unique_id=1104968860]
-shape = SubResource("RectangleShape2D_2au82")
-
-[node name="CanvasGroup" type="CanvasGroup" parent="." unique_id=2022916907]
-
-[node name="Marker" type="RichTextLabel" parent="CanvasGroup" unique_id=521127440]
-offset_left = -269.0
-offset_top = -331.0
-offset_right = 243.83002
-offset_bottom = -79.0
-size_flags_horizontal = 0
-bbcode_enabled = true
-text = "[rainbow] [outline_size=25] [font_size=75] 0 : 0"
-fit_content = true
-horizontal_alignment = 1
-script = ExtResource("4_8tn2x")
-
-[node name="NonPausable" type="Control" parent="CanvasGroup" unique_id=163735703]
-process_mode = 3
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="MenuButton" type="Button" parent="CanvasGroup/NonPausable" unique_id=1452374841 node_paths=PackedStringArray("canvasGroup")]
-layout_mode = 0
-offset_left = -40.0
-offset_top = 284.0
-offset_right = 40.0
-offset_bottom = 320.0
-toggle_mode = true
-text = "Menu"
-script = ExtResource("7_c4vo5")
-canvasGroup = NodePath("../../../Menu")
-initialText = "Menu"
-changeText = "Back"
-
-[node name="Controls" type="Control" parent="CanvasGroup" unique_id=1595482220]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("6_qs82m")
-
-[node name="Controls1" type="RichTextLabel" parent="CanvasGroup/Controls" unique_id=305718728 groups=["Controls"]]
-layout_mode = 0
-offset_left = -549.0
-offset_top = -324.0
-offset_right = -361.485
-offset_bottom = -72.0
-size_flags_horizontal = 0
-bbcode_enabled = true
-text = "[wave][outline_size=10] [font_size=30] W/S"
-fit_content = true
-
-[node name="Controls2" type="RichTextLabel" parent="CanvasGroup/Controls" unique_id=1213704745 groups=["Controls"]]
-layout_mode = 0
-offset_left = 403.0
-offset_top = -325.0
-offset_right = 590.515
-offset_bottom = -73.0
-size_flags_horizontal = 0
-bbcode_enabled = true
-text = "[wave][outline_size=10] [font_size=30] Up/Down"
-fit_content = true
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1288622869]
-stream = ExtResource("5_aq4fw")
-autoplay = true
-parameters/looping = true
-
-[node name="AudioListener2D" type="AudioListener2D" parent="." unique_id=1698533789]
-current = true
-
-[node name="SceneManager" type="Node2D" parent="." unique_id=610476609 node_paths=PackedStringArray("canvasGroups")]
-script = ExtResource("7_qs82m")
-canvasGroups = [NodePath("../Menu"), NodePath("../SettingsMenu")]
-
-[node name="SettingsMenu" type="CanvasGroup" parent="." unique_id=1174195726 groups=["SettingsMenu"]]
+[node name="SettingsMenu" type="CanvasGroup" parent="CanvasLayer" unique_id=1174195726 groups=["SettingsMenu"]]
 process_mode = 3
 visible = false
 
-[node name="SpinBox" type="SpinBox" parent="SettingsMenu" unique_id=523452000]
-offset_left = -135.0
-offset_top = -141.0
-offset_right = 165.0
-offset_bottom = -81.0
-max_value = 89.0
-value = 45.0
-
-[node name="RichTextLabel" type="RichTextLabel" parent="SettingsMenu/SpinBox" unique_id=604051228]
-layout_mode = 0
-offset_left = 1.0000051
-offset_top = -47.000008
-offset_right = 301.0
-offset_bottom = -7.0000076
-bbcode_enabled = true
-text = "[font_size=25][outline_size=10] [color=aqua] Bouncyness"
-
-[node name="SpinBox2" type="SpinBox" parent="SettingsMenu" unique_id=2036405056]
-offset_left = -135.0
-offset_top = -31.0
-offset_right = 165.0
-offset_bottom = 29.0
-max_value = 10000.0
-value = 1200.0
-
-[node name="RichTextLabel" type="RichTextLabel" parent="SettingsMenu/SpinBox2" unique_id=231323743]
-layout_mode = 0
-offset_left = 1.0000051
-offset_top = -47.000008
-offset_right = 301.0
-offset_bottom = -7.0000076
-bbcode_enabled = true
-text = "[font_size=25][color=aqua][outline_size=10]  Max Speed"
-
-[node name="SpinBox3" type="SpinBox" parent="SettingsMenu" unique_id=50963901]
-offset_left = -135.0
-offset_top = 77.0
-offset_right = 165.0
-offset_bottom = 137.0
-value = 5.0
-
-[node name="RichTextLabel" type="RichTextLabel" parent="SettingsMenu/SpinBox3" unique_id=1811181496]
-layout_mode = 0
-offset_left = 1.0000051
-offset_top = -47.000008
-offset_right = 301.0
-offset_bottom = -7.0000076
-bbcode_enabled = true
-text = "[outline_size=10] [font_size=25][color=aqua] Speed increase %"
-
-[node name="ShowControlsToggle" type="CheckButton" parent="SettingsMenu" unique_id=637929781]
-offset_left = -25.0
-offset_top = 184.0
-offset_right = 19.0
-offset_bottom = 208.0
-button_pressed = true
-
-[node name="RichTextLabel" type="RichTextLabel" parent="SettingsMenu/ShowControlsToggle" unique_id=766138804]
-layout_mode = 0
-offset_left = -81.0
-offset_top = -36.000008
-offset_right = 219.0
-offset_bottom = 3.9999924
-bbcode_enabled = true
-text = "[outline_size=10] [font_size=25][color=aqua] Controls Shown"
-
-[node name="ColorRect" type="ColorRect" parent="SettingsMenu" unique_id=164441134]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/SettingsMenu" unique_id=164441134]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -225,11 +40,86 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.41568628, 0.4392157, 1, 0.36078432)
 
-[node name="Menu" type="CanvasGroup" parent="." unique_id=1176875453]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/SettingsMenu" unique_id=899063144]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -157.0
+offset_top = -159.0
+offset_right = 157.0
+offset_bottom = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 56
+
+[node name="SpinBox" type="SpinBox" parent="CanvasLayer/SettingsMenu/VBoxContainer" unique_id=523452000]
+layout_mode = 2
+max_value = 89.0
+value = 45.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox" unique_id=604051228]
+layout_mode = 0
+offset_left = 1.0000051
+offset_top = -40.000008
+offset_right = 301.0
+bbcode_enabled = true
+text = "[font_size=25][outline_size=10] [color=aqua] Bouncyness"
+
+[node name="SpinBox2" type="SpinBox" parent="CanvasLayer/SettingsMenu/VBoxContainer" unique_id=2036405056]
+layout_mode = 2
+max_value = 10000.0
+value = 1200.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox2" unique_id=231323743]
+layout_mode = 0
+offset_left = 1.0000051
+offset_top = -40.0
+offset_right = 301.0
+bbcode_enabled = true
+text = "[font_size=25][color=aqua][outline_size=10]  Max Speed"
+
+[node name="SpinBox3" type="SpinBox" parent="CanvasLayer/SettingsMenu/VBoxContainer" unique_id=50963901]
+layout_mode = 2
+value = 5.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox3" unique_id=1811181496]
+layout_mode = 0
+offset_left = 1.0000051
+offset_top = -39.0
+offset_right = 301.0
+offset_bottom = 1.0
+bbcode_enabled = true
+text = "[outline_size=10] [font_size=25][color=aqua] Speed increase %"
+
+[node name="ShowControlsToggle" type="CheckButton" parent="CanvasLayer/SettingsMenu/VBoxContainer" unique_id=637929781]
+layout_mode = 2
+button_pressed = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/SettingsMenu/VBoxContainer/ShowControlsToggle" unique_id=766138804]
+layout_mode = 0
+offset_left = -7.0
+offset_top = -8.0
+offset_right = 293.0
+offset_bottom = 32.0
+bbcode_enabled = true
+text = "[outline_size=10] [font_size=25][color=aqua] Controls Shown"
+
+[node name="BackToMenu" type="Button" parent="CanvasLayer/SettingsMenu/VBoxContainer" unique_id=1271415055 node_paths=PackedStringArray("canvasGroup")]
+layout_mode = 2
+text = "Back to Menu"
+script = ExtResource("7_c4vo5")
+canvasGroup = NodePath("../../../Menu")
+initialText = "Back to Menu"
+changeText = "Back to Menu"
+
+[node name="Menu" type="CanvasGroup" parent="CanvasLayer" unique_id=1176875453]
 process_mode = 3
+visible = false
 scale = Vector2(1, 1.0033557)
 
-[node name="ColorRect" type="ColorRect" parent="Menu" unique_id=80188424]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Menu" unique_id=80188424]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -243,7 +133,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.41568628, 0.4392157, 1, 0.36078432)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Menu" unique_id=835325000]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Menu" unique_id=835325000]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -258,29 +148,174 @@ grow_vertical = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="Settings" type="Button" parent="Menu/VBoxContainer" unique_id=612537097]
+[node name="Settings" type="Button" parent="CanvasLayer/Menu/VBoxContainer" unique_id=612537097 node_paths=PackedStringArray("canvasGroup")]
 layout_mode = 2
 text = "Settings"
+script = ExtResource("7_c4vo5")
+canvasGroup = NodePath("../../../SettingsMenu")
+initialText = "Settings"
+changeText = "Settings"
 
-[node name="Restart" type="Button" parent="Menu/VBoxContainer" unique_id=1001741183]
+[node name="Restart" type="Button" parent="CanvasLayer/Menu/VBoxContainer" unique_id=1001741183 node_paths=PackedStringArray("canvasGroup")]
 layout_mode = 2
 text = "Restart"
+script = ExtResource("7_c4vo5")
+canvasGroup = NodePath("../..")
+initialText = "Restart"
+changeText = "Restart"
 
-[node name="Exit" type="Button" parent="Menu/VBoxContainer" unique_id=10674456]
+[node name="Exit" type="Button" parent="CanvasLayer/Menu/VBoxContainer" unique_id=10674456]
 layout_mode = 2
 text = "Exit"
 
-[connection signal="UpdateValue" from="SettingsManager" to="Ball" method="OnValueUpdated"]
-[connection signal="GoalReached" from="Goal1" to="CanvasGroup/Marker" method="AddScore"]
-[connection signal="GoalReached" from="Goal2" to="CanvasGroup/Marker" method="AddScore"]
-[connection signal="CanvasRequest" from="CanvasGroup/NonPausable/MenuButton" to="SceneManager" method="OnMenuRequest"]
-[connection signal="toggled" from="CanvasGroup/NonPausable/MenuButton" to="CanvasGroup/NonPausable/MenuButton" method="OnCanvasRequest"]
-[connection signal="toggled" from="CanvasGroup/NonPausable/MenuButton" to="CanvasGroup/NonPausable/MenuButton" method="OnTextChanged"]
-[connection signal="value_changed" from="SettingsMenu/SpinBox" to="SettingsManager" method="OnMaxAngleChange"]
-[connection signal="value_changed" from="SettingsMenu/SpinBox2" to="SettingsManager" method="OnMaxSpeedChange"]
-[connection signal="value_changed" from="SettingsMenu/SpinBox3" to="SettingsManager" method="OnSpeedIncreaseFactorChange"]
-[connection signal="toggled" from="SettingsMenu/ShowControlsToggle" to="CanvasGroup/Controls" method="OnToggleVisibilityButtonPressed"]
-[connection signal="pressed" from="Menu/VBoxContainer/Exit" to="SceneManager" method="OnExit"]
+[node name="GamePlay" type="Node2D" parent="." unique_id=1216209999]
 
-[editable path="Player1"]
-[editable path="Player2"]
+[node name="Player2" parent="GamePlay" unique_id=1987110974 instance=ExtResource("1_njov2")]
+position = Vector2(-499, 0)
+
+[node name="Movement" parent="GamePlay/Player2" index="0" unique_id=2073416182]
+inputSuffix = "p2"
+
+[node name="Sprite2D" parent="GamePlay/Player2" index="2" unique_id=34132164]
+flip_h = true
+
+[node name="Player1" parent="GamePlay" unique_id=349456793 instance=ExtResource("1_njov2")]
+position = Vector2(500, 0)
+
+[node name="Ball" parent="GamePlay" unique_id=149115935 instance=ExtResource("2_njov2")]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="GamePlay" unique_id=948942339]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GamePlay/StaticBody2D" unique_id=210007001]
+position = Vector2(9, 340)
+shape = SubResource("RectangleShape2D_2au82")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="GamePlay" unique_id=2131600118]
+position = Vector2(-3, -681)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GamePlay/StaticBody2D2" unique_id=1471987484]
+position = Vector2(9, 340)
+shape = SubResource("RectangleShape2D_2au82")
+
+[node name="Goal1" type="Area2D" parent="GamePlay" unique_id=1504704826]
+position = Vector2(598, -151)
+rotation = 1.5707964
+script = ExtResource("3_2au82")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GamePlay/Goal1" unique_id=146575461]
+shape = SubResource("RectangleShape2D_2au82")
+
+[node name="Goal2" type="Area2D" parent="GamePlay" unique_id=258302823]
+position = Vector2(-598, -37)
+rotation = 1.5707964
+script = ExtResource("3_2au82")
+PlayerNumber = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GamePlay/Goal2" unique_id=1104968860]
+shape = SubResource("RectangleShape2D_2au82")
+
+[node name="CanvasGroup" type="CanvasGroup" parent="GamePlay" unique_id=2022916907]
+
+[node name="Marker" type="RichTextLabel" parent="GamePlay/CanvasGroup" unique_id=521127440]
+offset_left = -269.0
+offset_top = -331.0
+offset_right = 243.83002
+offset_bottom = -79.0
+size_flags_horizontal = 0
+bbcode_enabled = true
+text = "[rainbow] [outline_size=25] [font_size=75] 0 : 0"
+fit_content = true
+horizontal_alignment = 1
+script = ExtResource("4_8tn2x")
+metadata/_edit_use_anchors_ = true
+
+[node name="NonPausable" type="Control" parent="GamePlay/CanvasGroup" unique_id=163735703]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+metadata/_edit_use_anchors_ = true
+
+[node name="MenuButton" type="Button" parent="GamePlay/CanvasGroup/NonPausable" unique_id=1452374841 node_paths=PackedStringArray("canvasGroup")]
+layout_mode = 0
+offset_left = -40.0
+offset_top = 284.0
+offset_right = 40.0
+offset_bottom = 320.0
+toggle_mode = true
+text = "Menu"
+script = ExtResource("7_c4vo5")
+canvasGroup = NodePath("../../../../CanvasLayer/Menu")
+initialText = "Menu"
+changeText = "Back"
+metadata/_edit_use_anchors_ = true
+
+[node name="Controls" type="Control" parent="GamePlay/CanvasGroup" unique_id=1595482220]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("6_qs82m")
+metadata/_edit_use_anchors_ = true
+
+[node name="Controls1" type="RichTextLabel" parent="GamePlay/CanvasGroup/Controls" unique_id=305718728 groups=["Controls"]]
+layout_mode = 0
+offset_left = -549.0
+offset_top = -324.0
+offset_right = -361.485
+offset_bottom = -72.0
+size_flags_horizontal = 0
+bbcode_enabled = true
+text = "[wave][outline_size=10] [font_size=30] W/S"
+fit_content = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Controls2" type="RichTextLabel" parent="GamePlay/CanvasGroup/Controls" unique_id=1213704745 groups=["Controls"]]
+layout_mode = 0
+offset_left = 403.0
+offset_top = -325.0
+offset_right = 590.515
+offset_bottom = -73.0
+size_flags_horizontal = 0
+bbcode_enabled = true
+text = "[wave][outline_size=10] [font_size=30] Up/Down"
+fit_content = true
+metadata/_edit_use_anchors_ = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="GamePlay" unique_id=1288622869]
+stream = ExtResource("5_aq4fw")
+autoplay = true
+parameters/looping = true
+
+[node name="AudioListener2D" type="AudioListener2D" parent="GamePlay" unique_id=1698533789]
+current = true
+
+[node name="Proxies" type="Node2D" parent="." unique_id=1978582346]
+
+[node name="SettingsProxy" type="Node2D" parent="Proxies" unique_id=1362700663]
+script = ExtResource("9_vwb7u")
+
+[node name="SceneProxy" type="Node2D" parent="Proxies" unique_id=484731535 node_paths=PackedStringArray("canvasLayer")]
+script = ExtResource("9_c4vo5")
+canvasLayer = NodePath("../../CanvasLayer")
+
+[connection signal="value_changed" from="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox" to="Proxies/SettingsProxy" method="OnMaxAngleChange"]
+[connection signal="value_changed" from="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox2" to="Proxies/SettingsProxy" method="OnMaxSpeedChange"]
+[connection signal="value_changed" from="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox3" to="Proxies/SettingsProxy" method="OnSpeedIncreaseFactorChange"]
+[connection signal="toggled" from="CanvasLayer/SettingsMenu/VBoxContainer/ShowControlsToggle" to="Proxies/SettingsProxy" method="OnVisibleControlsToggled"]
+[connection signal="CanvasRequest" from="CanvasLayer/SettingsMenu/VBoxContainer/BackToMenu" to="Proxies/SceneProxy" method="OnMenuRequest"]
+[connection signal="pressed" from="CanvasLayer/SettingsMenu/VBoxContainer/BackToMenu" to="CanvasLayer/SettingsMenu/VBoxContainer/BackToMenu" method="OnCanvasRequest"]
+[connection signal="CanvasRequest" from="CanvasLayer/Menu/VBoxContainer/Settings" to="Proxies/SceneProxy" method="OnMenuRequest"]
+[connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Settings" to="CanvasLayer/Menu/VBoxContainer/Settings" method="OnCanvasRequest"]
+[connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Restart" to="Proxies/SceneProxy" method="OnRestart"]
+[connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Exit" to="Proxies/SceneProxy" method="OnExit"]
+[connection signal="GoalReached" from="GamePlay/Goal1" to="GamePlay/CanvasGroup/Marker" method="AddScore"]
+[connection signal="GoalReached" from="GamePlay/Goal2" to="GamePlay/CanvasGroup/Marker" method="AddScore"]
+[connection signal="CanvasRequest" from="GamePlay/CanvasGroup/NonPausable/MenuButton" to="Proxies/SceneProxy" method="OnMenuRequest"]
+[connection signal="toggled" from="GamePlay/CanvasGroup/NonPausable/MenuButton" to="GamePlay/CanvasGroup/NonPausable/MenuButton" method="OnCanvasRequest"]
+[connection signal="toggled" from="GamePlay/CanvasGroup/NonPausable/MenuButton" to="GamePlay/CanvasGroup/NonPausable/MenuButton" method="OnTextChanged"]
+[connection signal="ToggleInitialButton" from="Proxies/SceneProxy" to="GamePlay/CanvasGroup/NonPausable/MenuButton" method="SetButtonPressed"]
+
+[editable path="GamePlay/Player2"]
+[editable path="GamePlay/Player1"]

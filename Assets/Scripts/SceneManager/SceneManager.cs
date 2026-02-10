@@ -4,30 +4,26 @@ using System.Collections.Generic;
 
 public partial class SceneManager : Node
 {
-	private static SceneManager _instance;
+	private List<CanvasGroup> canvasGroups = new List<CanvasGroup>();
 
-	[Export] public CanvasGroup[] canvasGroups = new CanvasGroup[] { };
+	public static SceneManager Instance {get; private set;}
 
-	public static SceneManager Instance
-	{
-		get
-		{
-			if (_instance == null)
-			{
-				_instance = new SceneManager();
-			}
-			return _instance;
-		}
-	}
+	public bool isReloading = false;
 
 	public override void _Ready()
 	{
-		if (_instance != null && _instance != this)
+		Instance = this;
+	}
+
+	public void UpdateCanvasGroups(CanvasLayer menuCanvasLayer)
+	{
+		foreach (Node child in menuCanvasLayer.GetChildren())
 		{
-			QueueFree();
-			return;
+			if (child is CanvasGroup canvasGroup)
+			{
+				canvasGroups.Add(canvasGroup);
+			}
 		}
-		_instance = this;
 	}
 
 	public void OnMenuRequest(CanvasGroup canvasGroup, bool value)
@@ -41,10 +37,21 @@ public partial class SceneManager : Node
 
 		if(canvasGroup.Visible) GetTree().Paused = true;
 		else GetTree().Paused = false;
+
+		isReloading = false;
 	}
 
-	private void OnExit()
+	public void OnExit()
 	{
 		GetTree().Quit();
+	}
+
+	public void OnRestart()
+	{
+		GetTree().Paused = false;
+		canvasGroups.Clear();
+		GetTree().ReloadCurrentScene();
+		isReloading = true;
+		GetTree().Paused = false;
 	}
 }

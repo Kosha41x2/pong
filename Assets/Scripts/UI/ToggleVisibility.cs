@@ -3,8 +3,13 @@ using System;
 
 public partial class ToggleVisibility : Control
 {
-	private void OnToggleVisibilityButtonPressed(bool value)
+	public override void _Ready()
 	{
-		Visible = value;
+		Visible = Settings.Instance.visibleControls;
+		Settings.Instance.UpdateValue += OnUpdateValue;
+	}
+	private void OnUpdateValue()
+	{
+		Visible = Settings.Instance.visibleControls;
 	}
 }

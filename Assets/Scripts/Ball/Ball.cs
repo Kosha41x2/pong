@@ -18,6 +18,7 @@ public partial class Ball : CharacterBody2D
 	public override async void _Ready()
     {
 		ResetBall();
+		Settings.Instance.UpdateValue += OnValueUpdated;
     }
 
 	public override void _PhysicsProcess(double delta)
