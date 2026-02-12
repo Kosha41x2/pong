@@ -19,7 +19,15 @@ public partial class Ball : CharacterBody2D
     {
 		ResetBall();
 		Settings.Instance.UpdateValue += OnValueUpdated;
+		OnValueUpdated();
+		GD.Print("Ball susbscribed to settings update");
     }
+
+	public override void _ExitTree()
+	{
+		Settings.Instance.UpdateValue -= OnValueUpdated;
+		GD.Print("Ball unsubscribed from settings update");
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -91,5 +99,7 @@ public partial class Ball : CharacterBody2D
 		maxSpeed = Settings.Instance.maxSpeed;
 		speedIncreaseFactor = Settings.Instance.speedIncreaseFactor;
 		bounceMaxAngle = Settings.Instance.bounceMaxAngle;
+
+		GD.Print("Settings Updated: Max Speed: " + maxSpeed + ", Speed Increase Factor: " + speedIncreaseFactor + ", Bounce Max Angle: " + bounceMaxAngle);
 	}
 }

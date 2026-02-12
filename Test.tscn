@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bikrbq82bx3cp" path="res://Assets/Prefabs/Player.tscn" id="1_njov2"]
 [ext_resource type="PackedScene" uid="uid://dqypnr30mq3v0" path="res://Assets/Prefabs/ball.tscn" id="2_njov2"]
 [ext_resource type="Script" uid="uid://cietihb0u0w8" path="res://Assets/Scripts/Walls/Goal.cs" id="3_2au82"]
+[ext_resource type="Script" uid="uid://cp7g1u0k6a1f3" path="res://Assets/Scripts/UI/CopySettingsToUI.cs" id="3_vwb7u"]
 [ext_resource type="Script" uid="uid://lyi23jaxt6py" path="res://Assets/Scripts/UI/Marker.cs" id="4_8tn2x"]
 [ext_resource type="AudioStream" uid="uid://46g57c8ia0dj" path="res://Assets/Music/Main Theme.mp3" id="5_aq4fw"]
 [ext_resource type="Script" uid="uid://cd0sywak8iyg5" path="res://Assets/Scripts/UI/ToggleVisibility.cs" id="6_qs82m"]
@@ -18,6 +19,15 @@ size = Vector2(1205, 33)
 [node name="Camera" type="Node2D" parent="." unique_id=572821116]
 
 [node name="Camera2D" type="Camera2D" parent="Camera" unique_id=1319529317]
+
+[node name="Proxies" type="Node2D" parent="." unique_id=1978582346]
+
+[node name="SettingsProxy" type="Node2D" parent="Proxies" unique_id=1362700663]
+script = ExtResource("9_vwb7u")
+
+[node name="SceneProxy" type="Node2D" parent="Proxies" unique_id=484731535 node_paths=PackedStringArray("canvasLayer")]
+script = ExtResource("9_c4vo5")
+canvasLayer = NodePath("../../CanvasLayer")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=467289503]
 follow_viewport_enabled = true
@@ -67,6 +77,13 @@ offset_right = 301.0
 bbcode_enabled = true
 text = "[font_size=25][outline_size=10] [color=aqua] Bouncyness"
 
+[node name="CopyFormSettings" type="Control" parent="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox" unique_id=1519333264]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_vwb7u")
+settingType = 2
+
 [node name="SpinBox2" type="SpinBox" parent="CanvasLayer/SettingsMenu/VBoxContainer" unique_id=2036405056]
 layout_mode = 2
 max_value = 10000.0
@@ -79,6 +96,12 @@ offset_top = -40.0
 offset_right = 301.0
 bbcode_enabled = true
 text = "[font_size=25][color=aqua][outline_size=10]  Max Speed"
+
+[node name="CopyFormSettings" type="Control" parent="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox2" unique_id=1942602338]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_vwb7u")
 
 [node name="SpinBox3" type="SpinBox" parent="CanvasLayer/SettingsMenu/VBoxContainer" unique_id=50963901]
 layout_mode = 2
@@ -93,6 +116,13 @@ offset_bottom = 1.0
 bbcode_enabled = true
 text = "[outline_size=10] [font_size=25][color=aqua] Speed increase %"
 
+[node name="CopyFormSettings" type="Control" parent="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox3" unique_id=1571438988]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_vwb7u")
+settingType = 1
+
 [node name="ShowControlsToggle" type="CheckButton" parent="CanvasLayer/SettingsMenu/VBoxContainer" unique_id=637929781]
 layout_mode = 2
 button_pressed = true
@@ -105,6 +135,13 @@ offset_right = 293.0
 offset_bottom = 32.0
 bbcode_enabled = true
 text = "[outline_size=10] [font_size=25][color=aqua] Controls Shown"
+
+[node name="CopyFormSettings" type="Control" parent="CanvasLayer/SettingsMenu/VBoxContainer/ShowControlsToggle" unique_id=337843290]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_vwb7u")
+settingType = 3
 
 [node name="BackToMenu" type="Button" parent="CanvasLayer/SettingsMenu/VBoxContainer" unique_id=1271415055 node_paths=PackedStringArray("canvasGroup")]
 layout_mode = 2
@@ -291,15 +328,7 @@ parameters/looping = true
 [node name="AudioListener2D" type="AudioListener2D" parent="GamePlay" unique_id=1698533789]
 current = true
 
-[node name="Proxies" type="Node2D" parent="." unique_id=1978582346]
-
-[node name="SettingsProxy" type="Node2D" parent="Proxies" unique_id=1362700663]
-script = ExtResource("9_vwb7u")
-
-[node name="SceneProxy" type="Node2D" parent="Proxies" unique_id=484731535 node_paths=PackedStringArray("canvasLayer")]
-script = ExtResource("9_c4vo5")
-canvasLayer = NodePath("../../CanvasLayer")
-
+[connection signal="ToggleInitialButton" from="Proxies/SceneProxy" to="GamePlay/CanvasGroup/NonPausable/MenuButton" method="SetButtonPressed"]
 [connection signal="value_changed" from="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox" to="Proxies/SettingsProxy" method="OnMaxAngleChange"]
 [connection signal="value_changed" from="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox2" to="Proxies/SettingsProxy" method="OnMaxSpeedChange"]
 [connection signal="value_changed" from="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox3" to="Proxies/SettingsProxy" method="OnSpeedIncreaseFactorChange"]
@@ -315,7 +344,6 @@ canvasLayer = NodePath("../../CanvasLayer")
 [connection signal="CanvasRequest" from="GamePlay/CanvasGroup/NonPausable/MenuButton" to="Proxies/SceneProxy" method="OnMenuRequest"]
 [connection signal="toggled" from="GamePlay/CanvasGroup/NonPausable/MenuButton" to="GamePlay/CanvasGroup/NonPausable/MenuButton" method="OnCanvasRequest"]
 [connection signal="toggled" from="GamePlay/CanvasGroup/NonPausable/MenuButton" to="GamePlay/CanvasGroup/NonPausable/MenuButton" method="OnTextChanged"]
-[connection signal="ToggleInitialButton" from="Proxies/SceneProxy" to="GamePlay/CanvasGroup/NonPausable/MenuButton" method="SetButtonPressed"]
 
 [editable path="GamePlay/Player2"]
 [editable path="GamePlay/Player1"]

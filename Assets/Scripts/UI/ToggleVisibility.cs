@@ -8,6 +8,11 @@ public partial class ToggleVisibility : Control
 		Visible = Settings.Instance.visibleControls;
 		Settings.Instance.UpdateValue += OnUpdateValue;
 	}
+	
+	public override void _ExitTree()
+	{
+		Settings.Instance.UpdateValue -= OnUpdateValue;
+	}
 	private void OnUpdateValue()
 	{
 		Visible = Settings.Instance.visibleControls;

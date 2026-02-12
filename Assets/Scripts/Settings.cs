@@ -37,7 +37,6 @@ public partial class Settings : Node2D
 	{
 		speedIncreaseFactor = value/100f + 1f;
 		EmitSignal(nameof(UpdateValue));
-		GD.Print("Speed Increase Factor: " + speedIncreaseFactor);
 	}
 
 	public void OnVisibleControlsToggled(bool value)
