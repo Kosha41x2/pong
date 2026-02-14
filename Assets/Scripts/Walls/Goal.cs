@@ -13,10 +13,14 @@ public partial class Goal : Area2D
 
 	private void OnBodyEntered(Node2D body)
 	{
-		if (body.IsInGroup("Ball") && body is Ball ball)
-		{
-			EmitSignal(SignalName.GoalReached, 1, PlayerNumber);
-			ball.ResetBall();
-		}
+    	GD.Print("Goal reached by: " + body.Name + " in Player " + PlayerNumber);
+    	if (body.IsInGroup("Ball") && body is Ball ball && ball.isActive)
+    	{
+			GD.Print("Ball is in" + ball.Position);
+			Ball randomBall = BallRandomizerManager.Instance.GetRandomBall();
+			EmitSignal(nameof(GoalReached), ball.PointsOfValue, PlayerNumber);
+			ball.Deactivate();
+			randomBall.Activate(new Vector2(0, 0));
+    	}
 	}
 }

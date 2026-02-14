@@ -8,13 +8,14 @@ public partial class MoveP : Node2D
 	[Export] private float speed = 400.0f;
 	[Export] private string inputSuffix = "p1";
 
-	private CharacterBody2D parentBody;
+	private PlayerData parentBody;
 
 	float velocityY = 0.0f;
 
 	public override void _Ready()
 	{
-		parentBody = GetParent<CharacterBody2D>();
+		parentBody = GetParent<PlayerData>();
+		inputSuffix = "p" + (parentBody.PlayerN + 1).ToString();
 	} 
     public override void _PhysicsProcess(double delta)
     {

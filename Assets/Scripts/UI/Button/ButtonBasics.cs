@@ -8,18 +8,21 @@ public partial class ButtonBasics : Button
 	[Signal] public delegate void CanvasRequestEventHandler(CanvasGroup canvasGroup, bool value);
 
 	[Export] private CanvasGroup canvasGroup;
-	[Export] private string initialText= "Click Me!";
+	[Export] private string initialText;
 	[Export] private string changeText = "Clicked!";
 
 	public override void _Ready()
 	{
-		Text = initialText;	
+		if(Text != initialText && Text != changeText)
+			Text = initialText;
 	}
 
 	private void OnTextChanged(bool value)
 	{
-		if(value) Text = changeText;
-		else Text = initialText;
+		if(value)
+			Text = changeText;
+		else
+			Text = initialText;	
 	}
 
 	private void OnCanvasRequest(bool value)
@@ -34,8 +37,6 @@ public partial class ButtonBasics : Button
 
 	private void SetButtonPressed(bool value)
 	{
-		this.ButtonPressed = value;
-		OnTextChanged(value);
-		if(canvasGroup != null) OnCanvasRequest(value);
+		ButtonPressed = true;
 	}
 }

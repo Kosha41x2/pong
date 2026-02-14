@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://bikrbq82bx3cp"]
 
+[ext_resource type="Script" uid="uid://bvsaurr3xjgxa" path="res://Assets/Scripts/Player/PlayerData.cs" id="1_qqa3f"]
 [ext_resource type="Script" uid="uid://dkmqdshigwso8" path="res://Assets/Scripts/Player/MoveP.cs" id="1_yepln"]
 [ext_resource type="Texture2D" uid="uid://l8bw6lcaqpwd" path="res://Assets/sprites/paddle.jpg" id="2_64e7q"]
+[ext_resource type="Script" uid="uid://m6nuxjub1vd8" path="res://Assets/Scripts/Player/DamageHandle.cs" id="3_617b0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_myinc"]
 size = Vector2(195.14656, 406.7293)
@@ -9,6 +11,7 @@ size = Vector2(195.14656, 406.7293)
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=349456793 groups=["Paddles"]]
 scale = Vector2(0.11, 0.11)
 motion_mode = 1
+script = ExtResource("1_qqa3f")
 
 [node name="Movement" type="Node2D" parent="." unique_id=2073416182]
 script = ExtResource("1_yepln")
@@ -21,3 +24,9 @@ one_way_collision_margin = 0.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=34132164]
 texture = ExtResource("2_64e7q")
+
+[node name="Timer" type="Timer" parent="." unique_id=1567041663]
+wait_time = 10.0
+
+[node name="DamageHandler" type="Node2D" parent="." unique_id=1486152322]
+script = ExtResource("3_617b0")

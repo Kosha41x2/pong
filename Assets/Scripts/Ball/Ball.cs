@@ -1,43 +1,45 @@
 using Godot;
 using System;
 using System.Drawing;
+using System.Runtime.InteropServices.Marshalling;
 using System.Threading.Tasks;
 
 public partial class Ball : CharacterBody2D
 {
-    [Export] private float initialSpeed = 400f;
-	private int directionValue;
+    [Export] protected float initialSpeed = 400f;
+
+	[Export] public int Weight {get; protected set;}
+	protected int directionValue;
 	RandomNumberGenerator rng = new RandomNumberGenerator();
-	private float speed = 400f;
+	protected float speed = 400f;
 
-	private float maxSpeed = 1200f;
-	private float speedIncreaseFactor = 1.05f;
+	protected float maxSpeed = 1200f;
+	protected float speedIncreaseFactor = 1.05f;
 
-	private float bounceMaxAngle = 45f;
+	protected float bounceMaxAngle = 45f;
 
-	public override async void _Ready()
-    {
-		ResetBall();
+	public int PointsOfValue { get; protected set; } = 1;
+
+	public bool isActive {get; protected set;} = false;
+
+	public override void _Ready()
+	{
 		Settings.Instance.UpdateValue += OnValueUpdated;
-		OnValueUpdated();
-		GD.Print("Ball susbscribed to settings update");
-    }
-
+	}
 	public override void _ExitTree()
 	{
 		Settings.Instance.UpdateValue -= OnValueUpdated;
-		GD.Print("Ball unsubscribed from settings update");
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
+		if (!isActive) return;
 		Velocity = Velocity.Normalized() * speed;
 		CollisionLogic(delta);
 	}
 
 	private void CollisionLogic(double delta)
 	{
-		GD.Print("Ball Speed: " + speed);
 		KinematicCollision2D collision = MoveAndCollide(Velocity * (float)delta);
 
 		if (collision != null)
@@ -55,7 +57,7 @@ public partial class Ball : CharacterBody2D
 		}
 	}
 
-	private void HandlePaddleCollision(CharacterBody2D paddle)
+	protected virtual void HandlePaddleCollision(CharacterBody2D paddle)
 	{
 		float bouncePercentage = CalculateBounceAngle(paddle);
 
@@ -83,9 +85,9 @@ public partial class Ball : CharacterBody2D
 		return normalizedHit;
 	}
 
-    public void ResetBall()
+    public void ResetBall(Vector2 startPosition)
 	{
-		Position = Vector2.Zero;
+		Position = startPosition;
 		directionValue = rng.RandiRange(0, 1);
 		
 		directionValue = directionValue == 1 ? 1 : -1;
@@ -101,5 +103,35 @@ public partial class Ball : CharacterBody2D
 		bounceMaxAngle = Settings.Instance.bounceMaxAngle;
 
 		GD.Print("Settings Updated: Max Speed: " + maxSpeed + ", Speed Increase Factor: " + speedIncreaseFactor + ", Bounce Max Angle: " + bounceMaxAngle);
+	}
+
+	public void Activate(Vector2 startPosition)
+	{    
+    	ResetBall(startPosition); 
+    
+    	Visible = true;
+
+		isActive = true;
+
+		GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred("disabled", false);
+	}
+
+	public void ActivateAfterDelay(Vector2 startPosition, float delay)
+	{
+		Task.Run(async () =>
+		{
+			await Task.Delay(TimeSpan.FromSeconds(delay));
+			GD.Print("Activating ball after delay of " + delay + " seconds.");
+			CallDeferred(nameof(Activate), startPosition);
+		});
+	}
+
+	public void Deactivate()
+	{
+		isActive = false;
+
+    	Visible = false;
+
+		GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred("disabled", true);
 	}
 }
