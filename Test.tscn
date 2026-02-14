@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://bo8s2f24vt8g5" path="res://Assets/Scripts/AuxControl/SceneProxy.cs" id="9_c4vo5"]
 [ext_resource type="Script" uid="uid://buj7uodete2nc" path="res://Assets/Scripts/AuxControl/SettingsProxy.cs" id="9_vwb7u"]
 [ext_resource type="PackedScene" uid="uid://1mnh6s5jyjmb" path="res://Assets/Prefabs/YellowBall.tscn" id="11_rc7cs"]
+[ext_resource type="PackedScene" uid="uid://2ws6m6bujlh7" path="res://Assets/Prefabs/RedBall.tscn" id="13_rc7cs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2au82"]
 size = Vector2(1205, 33)
@@ -33,7 +34,7 @@ canvasLayer = NodePath("../../CanvasLayer")
 
 [node name="BallRandomizer" type="Node2D" parent="Controls" unique_id=782717006 node_paths=PackedStringArray("balls", "firstBall")]
 script = ExtResource("3_r6p7k")
-balls = [NodePath("../../GamePlay/Balls/Ball"), NodePath("../../GamePlay/Balls/YellowBall")]
+balls = [NodePath("../../GamePlay/Balls/Ball"), NodePath("../../GamePlay/Balls/YellowBall"), NodePath("../../GamePlay/Balls/RedBall")]
 firstBall = NodePath("../../GamePlay/Balls/Ball")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=467289503]
@@ -349,10 +350,13 @@ current = true
 [node name="Balls" type="Node2D" parent="GamePlay" unique_id=31836718]
 
 [node name="YellowBall" parent="GamePlay/Balls" unique_id=149115935 instance=ExtResource("11_rc7cs")]
-Weight = 90
+Weight = 50
 
 [node name="Ball" parent="GamePlay/Balls" unique_id=1420229403 instance=ExtResource("2_njov2")]
-Weight = 90
+Weight = 50
+
+[node name="RedBall" parent="GamePlay/Balls" unique_id=755477930 instance=ExtResource("13_rc7cs")]
+Weight = 50
 
 [connection signal="ToggleInitialButton" from="Controls/SceneProxy" to="GamePlay/CanvasGroup/NonPausable/MenuButton" method="SetButtonPressed"]
 [connection signal="value_changed" from="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox" to="Controls/SettingsProxy" method="OnMaxAngleChange"]

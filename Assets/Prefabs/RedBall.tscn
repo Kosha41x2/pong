@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://2ws6m6bujlh7"]
+
+[ext_resource type="Script" uid="uid://dgc7d7hullo1c" path="res://Assets/Scripts/Ball/RedBall.cs" id="1_dbatu"]
+[ext_resource type="Texture2D" uid="uid://b4u6ao4pmp1nr" path="res://Assets/sprites/ball.jpg" id="2_b2wmi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_myinc"]
+size = Vector2(154, 156)
+
+[node name="RedBall" type="CharacterBody2D" unique_id=149115935 groups=["Ball"]]
+scale = Vector2(0.2, 0.2)
+script = ExtResource("1_dbatu")
+Weight = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1435425086]
+shape = SubResource("RectangleShape2D_myinc")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=214947722]
+modulate = Color(1, 0, 0, 1)
+texture = ExtResource("2_b2wmi")

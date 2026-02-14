@@ -126,7 +126,7 @@ public partial class Ball : CharacterBody2D
 		});
 	}
 
-	public void Deactivate()
+	public virtual void Deactivate()
 	{
 		isActive = false;
 
