@@ -17,10 +17,17 @@ public partial class Goal : Area2D
     	if (body.IsInGroup("Ball") && body is Ball ball && ball.isActive)
     	{
 			GD.Print("Ball is in" + ball.Position);
-			Ball randomBall = BallRandomizerManager.Instance.GetRandomBall();
+			ball.ResetBall(Vector2.Zero);
 			EmitSignal(nameof(GoalReached), ball.PointsOfValue, PlayerNumber);
-			ball.Deactivate();
-			randomBall.Activate(new Vector2(0, 0));
+
+			CallDeferred(nameof(SwapBall), ball);
     	}
+	}
+
+	private void SwapBall(Ball ball)
+	{
+		Ball randomBall = BallRandomizerManager.Instance.GetRandomBall();
+		ball.Deactivate();
+		randomBall.Activate(new Vector2(0, 0));
 	}
 }

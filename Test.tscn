@@ -350,13 +350,11 @@ current = true
 [node name="Balls" type="Node2D" parent="GamePlay" unique_id=31836718]
 
 [node name="YellowBall" parent="GamePlay/Balls" unique_id=149115935 instance=ExtResource("11_rc7cs")]
-Weight = 50
 
 [node name="Ball" parent="GamePlay/Balls" unique_id=1420229403 instance=ExtResource("2_njov2")]
-Weight = 50
+Weight = 80
 
 [node name="RedBall" parent="GamePlay/Balls" unique_id=755477930 instance=ExtResource("13_rc7cs")]
-Weight = 50
 
 [connection signal="ToggleInitialButton" from="Controls/SceneProxy" to="GamePlay/CanvasGroup/NonPausable/MenuButton" method="SetButtonPressed"]
 [connection signal="value_changed" from="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox" to="Controls/SettingsProxy" method="OnMaxAngleChange"]

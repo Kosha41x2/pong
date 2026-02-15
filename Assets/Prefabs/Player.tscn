@@ -25,8 +25,5 @@ one_way_collision_margin = 0.0
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=34132164]
 texture = ExtResource("2_64e7q")
 
-[node name="Timer" type="Timer" parent="." unique_id=1567041663]
-wait_time = 10.0
-
 [node name="DamageHandler" type="Node2D" parent="." unique_id=1486152322]
 script = ExtResource("3_617b0")
