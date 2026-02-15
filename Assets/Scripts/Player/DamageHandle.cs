@@ -5,6 +5,11 @@ public partial class DamageHandle : Node2D, IDamagable
 {
 	[Signal] public delegate void PlayerDamagedEventHandler(int damage, int playerN);
 	[Export] public int playerN { get; set; } = 0;
+
+	public override void _Ready()
+	{
+		playerN = GetParent<PlayerData>().PlayerN;
+	}
 	public void TakeDamage(int damage)
 	{
 		GD.Print("Player took " + damage + " damage!");
