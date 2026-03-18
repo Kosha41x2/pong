@@ -15,9 +15,9 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Pong"
-run/main_scene="uid://6a8foybh4wn8"
+run/main_scene="uid://6jnwffjwfaow"
 config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="uid://ysoeaoxh1dfd"
 
 [autoload]
 
@@ -37,6 +37,7 @@ folder_colors={
 "res://Assets/Prefabs/": "pink",
 "res://Assets/Resources/": "red",
 "res://Assets/Scripts/AuxControl/": "yellow",
+"res://Assets/Scripts/Interfaces/": "green",
 "res://Assets/Scripts/UI/": "purple",
 "res://Assets/sprites/": "green"
 }
@@ -46,6 +47,7 @@ folder_colors={
 Paddles=""
 Ball=""
 Controls=""
+Marker=""
 
 [input]
 

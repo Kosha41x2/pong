@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://cp7g1u0k6a1f3" path="res://Assets/Scripts/UI/CopySettingsToUI.cs" id="3_vwb7u"]
 [ext_resource type="Script" uid="uid://lyi23jaxt6py" path="res://Assets/Scripts/UI/Marker.cs" id="4_8tn2x"]
 [ext_resource type="AudioStream" uid="uid://46g57c8ia0dj" path="res://Assets/Music/Main Theme.mp3" id="5_aq4fw"]
+[ext_resource type="Script" uid="uid://ckre288t2lubu" path="res://Assets/Scripts/UI/Button/SceneSwapper.cs" id="6_d1b21"]
 [ext_resource type="Script" uid="uid://cd0sywak8iyg5" path="res://Assets/Scripts/UI/ToggleVisibility.cs" id="6_qs82m"]
 [ext_resource type="Script" uid="uid://c8gmjow3jbold" path="res://Assets/Scripts/UI/Button/ButtonBasics.cs" id="7_c4vo5"]
 [ext_resource type="Script" uid="uid://bo8s2f24vt8g5" path="res://Assets/Scripts/AuxControl/SceneProxy.cs" id="9_c4vo5"]
@@ -176,6 +177,7 @@ offset_right = 175.0
 offset_bottom = 90.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1, 1.1316804)
 color = Color(0.41568628, 0.4392157, 1, 0.36078432)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Menu" unique_id=835325000]
@@ -185,9 +187,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -143.0
-offset_top = -90.0
+offset_top = -80.729095
 offset_right = 143.0
-offset_bottom = 90.0
+offset_bottom = 99.270905
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 10
@@ -209,6 +211,13 @@ canvasGroup = NodePath("../..")
 initialText = "Restart"
 changeText = "Restart"
 
+[node name="Manual" type="Button" parent="CanvasLayer/Menu/VBoxContainer" unique_id=1616150996 node_paths=PackedStringArray("button")]
+layout_mode = 2
+text = "Manual"
+script = ExtResource("6_d1b21")
+scenePath = "res://Manual.tscn"
+button = NodePath(".")
+
 [node name="Exit" type="Button" parent="CanvasLayer/Menu/VBoxContainer" unique_id=10674456]
 layout_mode = 2
 text = "Exit"
@@ -228,7 +237,7 @@ flip_h = true
 [node name="Player1" parent="GamePlay" unique_id=349456793 instance=ExtResource("1_njov2")]
 position = Vector2(500, 0)
 
-[node name="DamageHandler" parent="GamePlay/Player1" index="4" unique_id=1486152322]
+[node name="DamageHandler" parent="GamePlay/Player1" index="3" unique_id=1486152322]
 playerN = 1
 
 [node name="StaticBody2D" type="StaticBody2D" parent="GamePlay" unique_id=948942339]
@@ -263,7 +272,7 @@ shape = SubResource("RectangleShape2D_2au82")
 
 [node name="CanvasGroup" type="CanvasGroup" parent="GamePlay" unique_id=2022916907]
 
-[node name="Marker" type="RichTextLabel" parent="GamePlay/CanvasGroup" unique_id=521127440]
+[node name="Marker" type="RichTextLabel" parent="GamePlay/CanvasGroup" unique_id=521127440 groups=["Marker"]]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -366,6 +375,8 @@ Weight = 80
 [connection signal="CanvasRequest" from="CanvasLayer/Menu/VBoxContainer/Settings" to="Controls/SceneProxy" method="OnMenuRequest"]
 [connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Settings" to="CanvasLayer/Menu/VBoxContainer/Settings" method="OnCanvasRequest"]
 [connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Restart" to="Controls/SceneProxy" method="OnRestart"]
+[connection signal="SceneRequest" from="CanvasLayer/Menu/VBoxContainer/Manual" to="Controls/SceneProxy" method="OnSceneSwapped"]
+[connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Manual" to="CanvasLayer/Menu/VBoxContainer/Manual" method="RequestSceneSwap"]
 [connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Exit" to="Controls/SceneProxy" method="OnExit"]
 [connection signal="PlayerDamaged" from="GamePlay/Player2/DamageHandler" to="GamePlay/CanvasGroup/Marker" method="AddScore"]
 [connection signal="PlayerDamaged" from="GamePlay/Player1/DamageHandler" to="GamePlay/CanvasGroup/Marker" method="AddScore"]

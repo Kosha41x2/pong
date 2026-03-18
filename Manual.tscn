@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://6jnwffjwfaow"]
+
+[ext_resource type="Script" uid="uid://bo8s2f24vt8g5" path="res://Assets/Scripts/AuxControl/SceneProxy.cs" id="1_n5y8a"]
+[ext_resource type="Script" uid="uid://ckre288t2lubu" path="res://Assets/Scripts/UI/Button/SceneSwapper.cs" id="2_kpije"]
+
+[node name="Manual" type="Node2D" unique_id=759806165]
+
+[node name="Label" type="Label" parent="." unique_id=1383334263]
+offset_right = 845.0
+offset_bottom = 448.0
+text = "This is a manual"
+
+[node name="Controls" type="Node2D" parent="." unique_id=1657443064]
+
+[node name="SceneProxy" type="Node2D" parent="Controls" unique_id=30054003 node_paths=PackedStringArray("canvasLayer")]
+script = ExtResource("1_n5y8a")
+canvasLayer = NodePath("../../CanvasLayer")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2048854722]
+process_mode = 3
+
+[node name="MainPage" type="CanvasGroup" parent="CanvasLayer" unique_id=1867867463]
+
+[node name="Button" type="Button" parent="CanvasLayer/MainPage" unique_id=629652195]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 584.0
+offset_top = 600.0
+offset_right = 635.0
+offset_bottom = 631.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+text = "asdfa"
+script = ExtResource("2_kpije")
+scenePath = "res://Test.tscn"
+saveSceneOnSwap = false
+
+[connection signal="SceneRequest" from="CanvasLayer/MainPage/Button" to="Controls/SceneProxy" method="OnSceneSwapped"]
+[connection signal="pressed" from="CanvasLayer/MainPage/Button" to="CanvasLayer/MainPage/Button" method="RequestSceneSwap"]

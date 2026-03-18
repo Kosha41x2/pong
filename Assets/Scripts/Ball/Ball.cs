@@ -22,6 +22,8 @@ public partial class Ball : CharacterBody2D
 
 	public bool isActive {get; protected set;} = false;
 
+	public bool isFromOtherSene {get; set;} = false;
+
 	public override void _Ready()
 	{
 		Settings.Instance.UpdateValue += OnValueUpdated;
@@ -85,15 +87,29 @@ public partial class Ball : CharacterBody2D
 		return normalizedHit;
 	}
 
-    public void ResetBall(Vector2 startPosition)
+    public void ResetBall(Vector2 startPosition, Vector2? initialVelocity = null)
 	{
+		if (isFromOtherSene)
+		{
+			isFromOtherSene = false;
+			GD.Print("Ball is from other scene, not resetting position and velocity.");
+			return;
+		}
+
 		Position = startPosition;
 		directionValue = rng.RandiRange(0, 1);
 		
 		directionValue = directionValue == 1 ? 1 : -1;
 
-		Velocity = initialSpeed * directionValue * Vector2.Right;
-        speed = initialSpeed;
+		if(initialVelocity != null)
+		{
+			Velocity = initialVelocity.Value;
+		}
+		else
+		{
+			Velocity = (initialSpeed * directionValue * Vector2.Right);
+        	speed = initialSpeed;
+		}
 	}
 
 	private void OnValueUpdated()
@@ -105,9 +121,9 @@ public partial class Ball : CharacterBody2D
 		GD.Print("Settings Updated: Max Speed: " + maxSpeed + ", Speed Increase Factor: " + speedIncreaseFactor + ", Bounce Max Angle: " + bounceMaxAngle);
 	}
 
-	public void Activate(Vector2 startPosition)
+	public void Activate(Vector2 startPosition, Vector2? initialVelocity = null)
 	{    
-    	ResetBall(startPosition); 
+    	ResetBall(startPosition, initialVelocity); 
     
     	Visible = true;
 

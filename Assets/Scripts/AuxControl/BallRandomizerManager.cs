@@ -49,6 +49,14 @@ public partial class BallRandomizerManager : Node2D
 		return ballPicked;
 	}
 
+	public void DeactivateAllBalls()
+	{
+		foreach(Ball ball in balls)
+		{
+			ball.Deactivate();
+		}
+	}
+
 	private int GetMaxWeight()
 	{
 		int weightSum = 0;
@@ -57,5 +65,10 @@ public partial class BallRandomizerManager : Node2D
 			weightSum += ball.Weight;
 		}
 		return weightSum;
+	}
+
+	public void SetFistBall(Ball ball)
+	{
+		firstBall = ball;
 	}
 }

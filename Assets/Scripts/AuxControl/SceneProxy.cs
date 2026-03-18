@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 
 public partial class SceneProxy : Node
 {
@@ -28,5 +29,10 @@ public partial class SceneProxy : Node
 	private void OnRestart()
 	{
 		SceneManager.Instance.OnRestart();
+	}
+
+	private void OnSceneSwapped(string scenePath, bool saveScene)
+	{
+		SceneManager.Instance.SwapScene(scenePath, saveScene);
 	}
 }

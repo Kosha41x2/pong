@@ -23,4 +23,15 @@ public partial class Marker : RichTextLabel
 	{
 		this.Text = string.Format(text_format, scores[0], scores[1]);
 	}
+
+	public int GetScore(int player)
+	{
+		return scores[player];
+	}
+
+	public void SetScore(int player, int score)
+	{
+		scores[player] = score;
+		UpdateScore();
+	}
 }
