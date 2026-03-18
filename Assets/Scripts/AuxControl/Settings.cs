@@ -1,6 +1,9 @@
 using Godot;
 using System;
 using System.ComponentModel;
+using System.Reflection.Metadata;
+using Godot.Collections;
+using System.Linq;
 
 public partial class Settings : Node2D
 {
@@ -8,9 +11,12 @@ public partial class Settings : Node2D
 
 	[Signal] public delegate void UpdateValueEventHandler();
 
-	public override void _Ready()
+	private Array<Node> balls = new Array<Node>();
+
+	public async override void _Ready()
 	{
 		Instance = this;
+		
 		EmitSignal(nameof(UpdateValue));
 	}
 

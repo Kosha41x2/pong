@@ -27,6 +27,7 @@ public partial class Ball : CharacterBody2D
 	public override void _Ready()
 	{
 		Settings.Instance.UpdateValue += OnValueUpdated;
+		OnValueUpdated();
 	}
 	public override void _ExitTree()
 	{
@@ -92,6 +93,7 @@ public partial class Ball : CharacterBody2D
 		if (isFromOtherSene)
 		{
 			isFromOtherSene = false;
+			speed = Velocity.Length();
 			GD.Print("Ball is from other scene, not resetting position and velocity.");
 			return;
 		}
@@ -107,7 +109,7 @@ public partial class Ball : CharacterBody2D
 		}
 		else
 		{
-			Velocity = (initialSpeed * directionValue * Vector2.Right);
+			Velocity = initialSpeed * directionValue * Vector2.Right;
         	speed = initialSpeed;
 		}
 	}
