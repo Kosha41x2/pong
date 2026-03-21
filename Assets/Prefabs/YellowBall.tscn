@@ -10,6 +10,7 @@ size = Vector2(154, 156)
 scale = Vector2(0.2, 0.2)
 script = ExtResource("1_ikfen")
 Weight = 10
+PointsOfValue = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1435425086]
 shape = SubResource("RectangleShape2D_myinc")

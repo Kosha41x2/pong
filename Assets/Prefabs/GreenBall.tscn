@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bq57c6ertq0j5"]
+
+[ext_resource type="Script" uid="uid://k34hm8eodvhw" path="res://Assets/Scripts/Ball/GreenBall.cs" id="1_nbu4a"]
+[ext_resource type="Texture2D" uid="uid://b4u6ao4pmp1nr" path="res://Assets/sprites/ball.jpg" id="2_mbx4w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_myinc"]
+size = Vector2(154, 156)
+
+[node name="GreenBall" type="CharacterBody2D" unique_id=149115935 groups=["Ball"]]
+scale = Vector2(0.2, 0.2)
+script = ExtResource("1_nbu4a")
+initialSpeed = 600.0
+Weight = 10
+PointsOfValue = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1435425086]
+shape = SubResource("RectangleShape2D_myinc")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=214947722]
+modulate = Color(0.29411766, 1, 0.25490198, 1)
+texture = ExtResource("2_mbx4w")

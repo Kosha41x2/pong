@@ -2,13 +2,14 @@
 
 [ext_resource type="Script" uid="uid://bo8s2f24vt8g5" path="res://Assets/Scripts/AuxControl/SceneProxy.cs" id="1_n5y8a"]
 [ext_resource type="Script" uid="uid://ckre288t2lubu" path="res://Assets/Scripts/UI/Button/SceneSwapper.cs" id="2_kpije"]
+[ext_resource type="Script" uid="uid://c8gmjow3jbold" path="res://Assets/Scripts/UI/Button/ButtonBasics.cs" id="2_qht1w"]
+[ext_resource type="PackedScene" uid="uid://8lg66iq5yodu" path="res://Assets/Prefabs/UI/frame.tscn" id="4_qht1w"]
+[ext_resource type="PackedScene" uid="uid://1mnh6s5jyjmb" path="res://Assets/Prefabs/YellowBall.tscn" id="5_ho87o"]
+[ext_resource type="PackedScene" uid="uid://2ws6m6bujlh7" path="res://Assets/Prefabs/RedBall.tscn" id="5_w4qjf"]
+[ext_resource type="PackedScene" uid="uid://bq57c6ertq0j5" path="res://Assets/Prefabs/GreenBall.tscn" id="7_y34m4"]
+[ext_resource type="PackedScene" uid="uid://bvs76c5s2hb0a" path="res://Assets/Prefabs/PurpleBall.tscn" id="8_wtnac"]
 
 [node name="Manual" type="Node2D" unique_id=759806165]
-
-[node name="Label" type="Label" parent="." unique_id=1383334263]
-offset_right = 845.0
-offset_bottom = 448.0
-text = "This is a manual"
 
 [node name="Controls" type="Node2D" parent="." unique_id=1657443064]
 
@@ -21,23 +22,256 @@ process_mode = 3
 
 [node name="MainPage" type="CanvasGroup" parent="CanvasLayer" unique_id=1867867463]
 
-[node name="Button" type="Button" parent="CanvasLayer/MainPage" unique_id=629652195]
-anchors_preset = 7
+[node name="Control" type="Control" parent="CanvasLayer/MainPage" unique_id=140667729]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/MainPage/Control" unique_id=185825640]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(29.079998, 16.560003)
+color = Color(0.1882353, 0.32156864, 0.31764707, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MainPage/Control" unique_id=894880872]
+layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 584.0
-offset_top = 600.0
-offset_right = 635.0
-offset_bottom = 631.0
+anchor_bottom = 0.5
+offset_left = 68.0
+offset_top = 27.0
+offset_right = 1068.0
+offset_bottom = 527.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
+theme_override_constants/separation = 11
+alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/MainPage/Control/VBoxContainer" unique_id=145078626 node_paths=PackedStringArray("canvasGroup")]
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+script = ExtResource("2_qht1w")
+canvasGroup = NodePath("../../../../Balls")
+changeText = ""
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/MainPage/Control/VBoxContainer/Button" unique_id=1207870395]
+layout_mode = 0
+offset_top = 0.5
+offset_right = 1000.0
+offset_bottom = 250.5
+mouse_filter = 2
+bbcode_enabled = true
+text = "[font_size=180][outline_size=50][color=aqua][center]Balls"
+
+[node name="Button2" type="Button" parent="CanvasLayer/MainPage/Control/VBoxContainer" unique_id=1198066991 node_paths=PackedStringArray("canvasGroup")]
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+script = ExtResource("2_qht1w")
+canvasGroup = NodePath("../../../../Settings")
+changeText = ""
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/MainPage/Control/VBoxContainer/Button2" unique_id=1189226625]
+layout_mode = 0
+offset_top = 0.5
+offset_right = 1000.0
+offset_bottom = 250.5
+mouse_filter = 2
+bbcode_enabled = true
+text = "[font_size=180][outline_size=50][color=aqua][center]Settings"
+
+[node name="Back" type="Button" parent="CanvasLayer/MainPage/Control" unique_id=629652195]
+layout_mode = 0
+offset_left = 554.0
+offset_top = 600.0
+offset_right = 599.0
+offset_bottom = 631.0
 size_flags_vertical = 8
-text = "asdfa"
+text = "Back"
 script = ExtResource("2_kpije")
 scenePath = "res://Test.tscn"
 saveSceneOnSwap = false
 
-[connection signal="SceneRequest" from="CanvasLayer/MainPage/Button" to="Controls/SceneProxy" method="OnSceneSwapped"]
-[connection signal="pressed" from="CanvasLayer/MainPage/Button" to="CanvasLayer/MainPage/Button" method="RequestSceneSwap"]
+[node name="Balls" type="CanvasGroup" parent="CanvasLayer" unique_id=64038252]
+visible = false
+
+[node name="Control" type="Control" parent="CanvasLayer/Balls" unique_id=404750292]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Balls/Control" unique_id=1321882615]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(29.079998, 16.560003)
+color = Color(0.1882353, 0.32156864, 0.31764707, 1)
+
+[node name="Back" type="Button" parent="CanvasLayer/Balls/Control" unique_id=546185697 node_paths=PackedStringArray("canvasGroup")]
+layout_mode = 0
+offset_left = 554.0
+offset_top = 600.0
+offset_right = 599.0
+offset_bottom = 631.0
+size_flags_vertical = 8
+text = "Back"
+script = ExtResource("2_qht1w")
+canvasGroup = NodePath("../../../MainPage")
+initialText = "Back"
+changeText = "Back"
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer/Balls/Control" unique_id=1740993926]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 15.0
+offset_right = 650.0
+offset_bottom = 525.0
+scale = Vector2(1.757, 1)
+color = Color(0.10777526, 0.19905588, 0.1963974, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Balls/Control" unique_id=371221067]
+custom_minimum_size = Vector2(1050, 500)
+layout_mode = 0
+offset_left = 50.0
+offset_top = 22.0
+offset_right = 1100.0
+offset_bottom = 522.0
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Balls/Control/ScrollContainer" unique_id=553248362]
+clip_contents = true
+custom_minimum_size = Vector2(250, 250)
+layout_mode = 2
+theme_override_constants/h_separation = 125
+theme_override_constants/v_separation = 200
+columns = 3
+
+[node name="Frame" parent="CanvasLayer/Balls/Control/ScrollContainer/GridContainer" unique_id=1196647935 instance=ExtResource("4_qht1w")]
+layout_mode = 2
+text = "This is the default ball, it'll always the fist ball to appear."
+TittleText = "Default Ball"
+
+[node name="RichTextLabel" parent="CanvasLayer/Balls/Control/ScrollContainer/GridContainer/Frame" index="0" unique_id=1912094558]
+custom_minimum_size = Vector2(250, 120)
+offset_left = -20.0
+offset_right = 250.0
+
+[node name="Frame2" parent="CanvasLayer/Balls/Control/ScrollContainer/GridContainer" unique_id=483220960 instance=ExtResource("4_qht1w")]
+layout_mode = 2
+DisplayObjectScene = ExtResource("5_ho87o")
+text = "This ball behaves exactly like the default one, but it's always worth twice as much"
+TittleText = "Golden Ball"
+
+[node name="Frame3" parent="CanvasLayer/Balls/Control/ScrollContainer/GridContainer" unique_id=1771007981 instance=ExtResource("4_qht1w")]
+layout_mode = 2
+DisplayObjectScene = ExtResource("5_w4qjf")
+text = "This ball starts being a normal ball, but once it bounces for first time it's speed becomes 75% of the maximum, if it's a player in this state the hit player recives -2 points, and its value points become 0."
+TittleText = "Fire Ball"
+
+[node name="Frame4" parent="CanvasLayer/Balls/Control/ScrollContainer/GridContainer" unique_id=1920996310 instance=ExtResource("4_qht1w")]
+layout_mode = 2
+DisplayObjectScene = ExtResource("7_y34m4")
+text = "It accelerates twice as fast and has a higher initial velocity"
+TittleText = "Fast Ball"
+
+[node name="Frame5" parent="CanvasLayer/Balls/Control/ScrollContainer/GridContainer" unique_id=1425910344 instance=ExtResource("4_qht1w")]
+layout_mode = 2
+DisplayObjectScene = ExtResource("8_wtnac")
+text = "Every time a player collides with it, it takes a random value between its initial speed and the maximum speed."
+TittleText = "Random Ball"
+
+[node name="Control" type="Control" parent="CanvasLayer/Balls/Control/ScrollContainer/GridContainer" unique_id=810633334]
+custom_minimum_size = Vector2(0, 450)
+layout_mode = 2
+
+[node name="Settings" type="CanvasGroup" parent="CanvasLayer" unique_id=1889137560]
+visible = false
+
+[node name="Control" type="Control" parent="CanvasLayer/Settings" unique_id=353273684]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Settings/Control" unique_id=1405163889]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(29.079998, 16.560003)
+color = Color(0.1882353, 0.32156864, 0.31764707, 1)
+
+[node name="Back" type="Button" parent="CanvasLayer/Settings/Control" unique_id=1665046211 node_paths=PackedStringArray("canvasGroup")]
+layout_mode = 0
+offset_left = 554.0
+offset_top = 600.0
+offset_right = 599.0
+offset_bottom = 631.0
+size_flags_vertical = 8
+text = "Back"
+script = ExtResource("2_qht1w")
+canvasGroup = NodePath("../../../MainPage")
+initialText = "Back"
+changeText = "Back"
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer/Settings/Control" unique_id=635646293]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 15.0
+offset_right = 650.0
+offset_bottom = 525.0
+scale = Vector2(1.757, 1)
+color = Color(0.10777526, 0.19905588, 0.1963974, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/Settings/Control" unique_id=352295100]
+custom_minimum_size = Vector2(1050, 500)
+layout_mode = 0
+offset_left = 50.0
+offset_top = 22.0
+offset_right = 1100.0
+offset_bottom = 522.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Settings/Control/ScrollContainer" unique_id=485418811]
+custom_minimum_size = Vector2(1050, 50)
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Settings/Control/ScrollContainer/VBoxContainer" unique_id=408315159]
+custom_minimum_size = Vector2(0, 110)
+layout_mode = 2
+bbcode_enabled = true
+text = "[font_size=25][outline_size=10][color=aqua]Bounciness: The maximum angle the ball can make with the paddle surface once they collide, the closer you are the the edge of the paddle the closer the angle will be to the max angle"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="CanvasLayer/Settings/Control/ScrollContainer/VBoxContainer" unique_id=1680888203]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+bbcode_enabled = true
+text = "[font_size=25][outline_size=10][color=aqua]Max Speed: When a ball hits a paddle it becomes faster, this number is the maximum amount of speed the ball can reach, being 400 the initial speed."
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="CanvasLayer/Settings/Control/ScrollContainer/VBoxContainer" unique_id=692378714]
+custom_minimum_size = Vector2(0, 110)
+layout_mode = 2
+bbcode_enabled = true
+text = "[font_size=25][outline_size=10][color=aqua]Speed increase %: it's the factor by which the current speed is multiplied to calculate the next speed. This factor is applied every time the ball hits the paddle until it reaches the Max Speed."
+
+[node name="RichTextLabel4" type="RichTextLabel" parent="CanvasLayer/Settings/Control/ScrollContainer/VBoxContainer" unique_id=148109881]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+bbcode_enabled = true
+text = "[font_size=25][outline_size=10][color=aqua]Show Controls: Controls are shown on top of the players if it's activated, it might be helpful to see controls at first, but it's better to turn them off afterwards."
+
+[connection signal="CanvasRequest" from="CanvasLayer/MainPage/Control/VBoxContainer/Button" to="Controls/SceneProxy" method="OnMenuRequest"]
+[connection signal="pressed" from="CanvasLayer/MainPage/Control/VBoxContainer/Button" to="CanvasLayer/MainPage/Control/VBoxContainer/Button" method="OnCanvasRequest"]
+[connection signal="CanvasRequest" from="CanvasLayer/MainPage/Control/VBoxContainer/Button2" to="Controls/SceneProxy" method="OnMenuRequest"]
+[connection signal="pressed" from="CanvasLayer/MainPage/Control/VBoxContainer/Button2" to="CanvasLayer/MainPage/Control/VBoxContainer/Button2" method="OnCanvasRequest"]
+[connection signal="SceneRequest" from="CanvasLayer/MainPage/Control/Back" to="Controls/SceneProxy" method="OnSceneSwapped"]
+[connection signal="pressed" from="CanvasLayer/MainPage/Control/Back" to="CanvasLayer/MainPage/Control/Back" method="RequestSceneSwap"]
+[connection signal="CanvasRequest" from="CanvasLayer/Balls/Control/Back" to="Controls/SceneProxy" method="OnMenuRequest"]
+[connection signal="pressed" from="CanvasLayer/Balls/Control/Back" to="CanvasLayer/Balls/Control/Back" method="OnCanvasRequest"]
+[connection signal="CanvasRequest" from="CanvasLayer/Settings/Control/Back" to="Controls/SceneProxy" method="OnMenuRequest"]
+[connection signal="pressed" from="CanvasLayer/Settings/Control/Back" to="CanvasLayer/Settings/Control/Back" method="OnCanvasRequest"]
+
+[editable path="CanvasLayer/Balls/Control/ScrollContainer/GridContainer/Frame"]
+[editable path="CanvasLayer/Balls/Control/ScrollContainer/GridContainer/Frame2"]
+[editable path="CanvasLayer/Balls/Control/ScrollContainer/GridContainer/Frame3"]

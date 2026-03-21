@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public partial class Ball : CharacterBody2D
 {
-    [Export] protected float initialSpeed = 400f;
+    [Export] public float initialSpeed {get; protected set;} = 400f;
 
 	[Export] public int Weight {get; protected set;}
 	protected int directionValue;
@@ -18,7 +18,7 @@ public partial class Ball : CharacterBody2D
 
 	protected float bounceMaxAngle = 45f;
 
-	public int PointsOfValue { get; protected set; } = 1;
+	[Export] public int PointsOfValue { get; protected set; } = 1;
 
 	public bool isActive {get; protected set;} = false;
 
@@ -114,7 +114,7 @@ public partial class Ball : CharacterBody2D
 		}
 	}
 
-	private void OnValueUpdated()
+	virtual protected void OnValueUpdated()
 	{
 		maxSpeed = Settings.Instance.maxSpeed;
 		speedIncreaseFactor = Settings.Instance.speedIncreaseFactor;

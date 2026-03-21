@@ -95,7 +95,7 @@ public partial class SceneManager : Node
 		{
 			group.Visible = false;
 		}
-
+		GD.Print($"Setting canvas group {canvasGroup.Name} visibility to {value}");
 		canvasGroup.Visible = value;
 
 		if(canvasGroup.Visible) GetTree().Paused = true;
