@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cvc1n4c7xmjcy"]
+
+[ext_resource type="Script" uid="uid://cp7g1u0k6a1f3" path="res://Assets/Scripts/UI/CopySettingsToUI.cs" id="1_k0s30"]
+
+[node name="WeightChanger" type="HBoxContainer" unique_id=766944214]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=1042406891]
+custom_minimum_size = Vector2(220, 35)
+layout_mode = 2
+bbcode_enabled = true
+text = "[outline_size=10] [font_size=25][color=aqua] Def Ball Weight"
+
+[node name="SpinBox3" type="SpinBox" parent="." unique_id=1316945929]
+layout_mode = 2
+value = 5.0
+
+[node name="CopyFormSettings" type="Control" parent="SpinBox3" unique_id=388355665]
+anchors_preset = 0
+offset_bottom = 40.0
+script = ExtResource("1_k0s30")
+settingType = 1

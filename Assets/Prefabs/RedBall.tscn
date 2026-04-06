@@ -9,6 +9,7 @@ size = Vector2(154, 156)
 [node name="RedBall" type="CharacterBody2D" unique_id=149115935 groups=["Ball"]]
 scale = Vector2(0.2, 0.2)
 script = ExtResource("1_dbatu")
+maxSpeedPercentage = 1.0
 Weight = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1435425086]

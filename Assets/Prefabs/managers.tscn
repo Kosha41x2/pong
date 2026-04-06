@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bi0o0xjhvt3dn" path="res://Assets/Scripts/SceneManager/SceneManager.cs" id="1_a0uu4"]
 [ext_resource type="Script" uid="uid://cikbfsmytpwiw" path="res://Assets/Scripts/AuxControl/Settings.cs" id="2_wxrtv"]
+[ext_resource type="Script" uid="uid://d4e1ja86bak58" path="res://Assets/Scripts/AuxControl/ServerManager.cs" id="3_wxrtv"]
 
 [node name="Managers" type="Node2D" unique_id=8290955]
 
@@ -10,3 +11,6 @@ script = ExtResource("1_a0uu4")
 
 [node name="SettingsManager" type="Node2D" parent="." unique_id=1648422103]
 script = ExtResource("2_wxrtv")
+
+[node name="ServerManager" type="Node2D" parent="." unique_id=516780784]
+script = ExtResource("3_wxrtv")

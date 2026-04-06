@@ -168,7 +168,7 @@ TittleText = "Golden Ball"
 [node name="Frame3" parent="CanvasLayer/Balls/Control/ScrollContainer/GridContainer" unique_id=1771007981 instance=ExtResource("4_qht1w")]
 layout_mode = 2
 DisplayObjectScene = ExtResource("5_w4qjf")
-text = "This ball starts being a normal ball, but once it bounces for first time it's speed becomes 75% of the maximum, if it's a player in this state the hit player recives -2 points, and its value points become 0."
+text = "This ball starts being a normal ball, but once it bounces for first time it's speed becomes the maximum, if it's a player in this state the hit player recives -2 points, and its value points become 0."
 TittleText = "Fire Ball"
 
 [node name="Frame4" parent="CanvasLayer/Balls/Control/ScrollContainer/GridContainer" unique_id=1920996310 instance=ExtResource("4_qht1w")]
@@ -241,7 +241,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 110)
 layout_mode = 2
 bbcode_enabled = true
-text = "[font_size=25][outline_size=10][color=aqua]Bounciness: The maximum angle the ball can make with the paddle surface once they collide, the closer you are the the edge of the paddle the closer the angle will be to the max angle"
+text = "[font_size=25][outline_size=10][color=aqua]Bounciness: The maximum angle the ball can make with the paddle surface once they collide, the closer you are the the edge of the paddle the closer the angle will be to the max angle."
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="CanvasLayer/Settings/Control/ScrollContainer/VBoxContainer" unique_id=1680888203]
 custom_minimum_size = Vector2(0, 80)
@@ -260,6 +260,12 @@ custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 bbcode_enabled = true
 text = "[font_size=25][outline_size=10][color=aqua]Show Controls: Controls are shown on top of the players if it's activated, it might be helpful to see controls at first, but it's better to turn them off afterwards."
+
+[node name="RichTextLabel5" type="RichTextLabel" parent="CanvasLayer/Settings/Control/ScrollContainer/VBoxContainer" unique_id=2000680077]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+bbcode_enabled = true
+text = "[font_size=25][outline_size=10][color=aqua]Weight: The odds of a ball appearing, they can sum up to any number, the larger the weight is compared to the others the more odds it has to appear"
 
 [connection signal="CanvasRequest" from="CanvasLayer/MainPage/Control/VBoxContainer/Button" to="Controls/SceneProxy" method="OnMenuRequest"]
 [connection signal="pressed" from="CanvasLayer/MainPage/Control/VBoxContainer/Button" to="CanvasLayer/MainPage/Control/VBoxContainer/Button" method="OnCanvasRequest"]

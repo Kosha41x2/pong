@@ -19,7 +19,23 @@ public partial class MoveP : Node2D
 	} 
     public override void _PhysicsProcess(double delta)
     {
-		float inputDir = Input.GetActionStrength("move_down_" + inputSuffix) - Input.GetActionStrength("move_up_" + inputSuffix);
+		if(!IsMultiplayerAuthority())
+		{
+			return;
+		}
+
+		bool isOffline = Multiplayer.MultiplayerPeer == null || Multiplayer.MultiplayerPeer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Connecting || Multiplayer.MultiplayerPeer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Disconnected;
+		float inputDir = 0.0f;
+
+		if(isOffline)
+		{
+			inputDir = Input.GetActionStrength("move_down_" + inputSuffix) - Input.GetActionStrength("move_up_" + inputSuffix);
+		}
+		else
+		{
+			inputDir = Input.GetActionStrength("move_down_p1") - Input.GetActionStrength("move_up_p1");
+		}
+
 
 		if (inputDir != 0)
 		{

@@ -22,10 +22,12 @@ public partial class Settings : Node2D
 
 	[Export] public float initialSpeed = 400f;
 	[Export] public float speedIncreaseFactor = 1.05f;
-	[Export] public float maxSpeed = 1200f;
+	[Export] public float maxSpeed = 1600f;
 	[Export] public float bounceMaxAngle = 45f;
 
 	[Export] public bool visibleControls = true;
+
+	[Export] public Array<int> ballsWeights = new Array<int>(){50, 10, 10, 10, 10};
 
 	public void OnMaxSpeedChange(float value)
 	{
@@ -49,5 +51,13 @@ public partial class Settings : Node2D
 	{
 		visibleControls = value;
 		EmitSignal(nameof(UpdateValue));
+	}
+	public void OnBallWeightChange(int index, int value)
+	{
+		if(index >= 0 && index < ballsWeights.Count)
+		{
+			ballsWeights[index] = value;
+			EmitSignal(nameof(UpdateValue));
+		}
 	}
 }

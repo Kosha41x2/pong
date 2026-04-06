@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://ckre288t2lubu" path="res://Assets/Scripts/UI/Button/SceneSwapper.cs" id="6_d1b21"]
 [ext_resource type="Script" uid="uid://cd0sywak8iyg5" path="res://Assets/Scripts/UI/ToggleVisibility.cs" id="6_qs82m"]
 [ext_resource type="Script" uid="uid://c8gmjow3jbold" path="res://Assets/Scripts/UI/Button/ButtonBasics.cs" id="7_c4vo5"]
+[ext_resource type="Script" uid="uid://dewdtmhje8y1f" path="res://Assets/Scripts/UI/Button/ServerUI.cs" id="7_rdfvj"]
 [ext_resource type="Script" uid="uid://bo8s2f24vt8g5" path="res://Assets/Scripts/AuxControl/SceneProxy.cs" id="9_c4vo5"]
 [ext_resource type="Script" uid="uid://buj7uodete2nc" path="res://Assets/Scripts/AuxControl/SettingsProxy.cs" id="9_vwb7u"]
 [ext_resource type="PackedScene" uid="uid://1mnh6s5jyjmb" path="res://Assets/Prefabs/YellowBall.tscn" id="11_rc7cs"]
@@ -19,6 +20,19 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2au82"]
 size = Vector2(1205, 33)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_iw7q2"]
+properties/0/path = NodePath(".:scores")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_rdfvj"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:visible")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [node name="Node2D" type="Node2D" unique_id=2034202261]
 
@@ -41,6 +55,7 @@ balls = [NodePath("../../GamePlay/Balls/Ball"), NodePath("../../GamePlay/Balls/Y
 firstBall = NodePath("../../GamePlay/Balls/Ball")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=467289503]
+process_mode = 3
 follow_viewport_enabled = true
 
 [node name="SettingsMenu" type="CanvasGroup" parent="CanvasLayer" unique_id=1174195726 groups=["SettingsMenu"]]
@@ -68,12 +83,12 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -157.0
-offset_top = -159.0
+offset_top = -170.0
 offset_right = 157.0
-offset_bottom = 256.0
+offset_bottom = 191.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 56
+theme_override_constants/separation = 62
 
 [node name="SpinBox" type="SpinBox" parent="CanvasLayer/SettingsMenu/VBoxContainer" unique_id=523452000]
 layout_mode = 2
@@ -134,11 +149,25 @@ offset_bottom = 40.0
 script = ExtResource("3_vwb7u")
 settingType = 1
 
-[node name="ShowControlsToggle" type="CheckButton" parent="CanvasLayer/SettingsMenu/VBoxContainer" unique_id=637929781]
-layout_mode = 2
+[node name="BackToMenu" type="Button" parent="CanvasLayer/SettingsMenu" unique_id=1271415055 node_paths=PackedStringArray("canvasGroup")]
+offset_left = -157.0
+offset_top = 182.0
+offset_right = 157.0
+offset_bottom = 213.0
+text = "Back to Menu"
+script = ExtResource("7_c4vo5")
+canvasGroup = NodePath("../../Menu")
+initialText = "Back to Menu"
+changeText = "Back to Menu"
+
+[node name="ShowControlsToggle" type="CheckButton" parent="CanvasLayer/SettingsMenu" unique_id=637929781]
+offset_left = -157.0
+offset_top = 98.0
+offset_right = 157.0
+offset_bottom = 122.0
 button_pressed = true
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/SettingsMenu/VBoxContainer/ShowControlsToggle" unique_id=766138804]
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/SettingsMenu/ShowControlsToggle" unique_id=766138804]
 layout_mode = 0
 offset_left = -7.0
 offset_top = -8.0
@@ -147,20 +176,12 @@ offset_bottom = 32.0
 bbcode_enabled = true
 text = "[outline_size=10] [font_size=25][color=aqua] Controls Shown"
 
-[node name="CopyFormSettings" type="Control" parent="CanvasLayer/SettingsMenu/VBoxContainer/ShowControlsToggle" unique_id=337843290]
+[node name="CopyFormSettings" type="Control" parent="CanvasLayer/SettingsMenu/ShowControlsToggle" unique_id=337843290]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("3_vwb7u")
 settingType = 3
-
-[node name="BackToMenu" type="Button" parent="CanvasLayer/SettingsMenu/VBoxContainer" unique_id=1271415055 node_paths=PackedStringArray("canvasGroup")]
-layout_mode = 2
-text = "Back to Menu"
-script = ExtResource("7_c4vo5")
-canvasGroup = NodePath("../../../Menu")
-initialText = "Back to Menu"
-changeText = "Back to Menu"
 
 [node name="Menu" type="CanvasGroup" parent="CanvasLayer" unique_id=1176875453]
 process_mode = 3
@@ -174,12 +195,12 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -175.0
-offset_top = -90.0
+offset_top = -112.62207
 offset_right = 175.0
-offset_bottom = 90.0
+offset_bottom = 67.37793
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1, 1.1316804)
+scale = Vector2(1, 1.4107438)
 color = Color(0.41568628, 0.4392157, 1, 0.36078432)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Menu" unique_id=835325000]
@@ -189,9 +210,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -143.0
-offset_top = -80.729095
+offset_top = -84.71571
 offset_right = 143.0
-offset_bottom = 99.270905
+offset_bottom = 110.28429
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 10
@@ -219,13 +240,63 @@ text = "Manual"
 script = ExtResource("6_d1b21")
 scenePath = "res://Manual.tscn"
 
+[node name="Manual2" type="Button" parent="CanvasLayer/Menu/VBoxContainer" unique_id=1959376576 node_paths=PackedStringArray("canvasGroup")]
+layout_mode = 2
+text = "Server Options"
+script = ExtResource("7_c4vo5")
+canvasGroup = NodePath("../../../CanvasGroup")
+initialText = "Server Options"
+changeText = "Server Options"
+
 [node name="Exit" type="Button" parent="CanvasLayer/Menu/VBoxContainer" unique_id=10674456]
 layout_mode = 2
 text = "Exit"
 
+[node name="CanvasGroup" type="CanvasGroup" parent="CanvasLayer" unique_id=1125953507]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/CanvasGroup" unique_id=585099788]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = -53.0
+offset_right = 175.0
+offset_bottom = 127.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1, 0.7307438)
+color = Color(0.41568628, 0.4392157, 1, 0.36078432)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CanvasGroup" unique_id=1282975979]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -143.0
+offset_top = -84.71571
+offset_right = 143.0
+offset_bottom = 110.28429
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+alignment = 1
+script = ExtResource("7_rdfvj")
+
+[node name="Button" type="Button" parent="CanvasLayer/CanvasGroup/VBoxContainer" unique_id=945923532]
+layout_mode = 2
+text = "Server"
+
+[node name="Button2" type="Button" parent="CanvasLayer/CanvasGroup/VBoxContainer" unique_id=324648170]
+layout_mode = 2
+text = "Client"
+
 [node name="GamePlay" type="Node2D" parent="." unique_id=1216209999]
 
-[node name="Player2" parent="GamePlay" unique_id=1987110974 instance=ExtResource("1_njov2")]
+[node name="Player2" parent="GamePlay" unique_id=1987110974 groups=["ServerPaddles"] instance=ExtResource("1_njov2")]
 position = Vector2(-499, 0)
 PlayerN = 1
 
@@ -288,6 +359,9 @@ text = "[rainbow] [outline_size=25] [font_size=75] 0 : 0"
 fit_content = true
 horizontal_alignment = 1
 script = ExtResource("4_8tn2x")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="GamePlay/CanvasGroup/Marker" unique_id=1935505675]
+replication_config = SubResource("SceneReplicationConfig_iw7q2")
 
 [node name="NonPausable" type="Control" parent="GamePlay/CanvasGroup" unique_id=163735703]
 process_mode = 3
@@ -361,28 +435,47 @@ current = true
 
 [node name="YellowBall" parent="GamePlay/Balls" unique_id=149115935 instance=ExtResource("11_rc7cs")]
 
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="GamePlay/Balls/YellowBall" unique_id=1366010052]
+replication_config = SubResource("SceneReplicationConfig_rdfvj")
+
 [node name="Ball" parent="GamePlay/Balls" unique_id=1420229403 instance=ExtResource("2_njov2")]
 Weight = 60
 
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="GamePlay/Balls/Ball" unique_id=1299306239]
+replication_config = SubResource("SceneReplicationConfig_rdfvj")
+
 [node name="RedBall" parent="GamePlay/Balls" unique_id=755477930 instance=ExtResource("13_rc7cs")]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="GamePlay/Balls/RedBall" unique_id=155894346]
+replication_config = SubResource("SceneReplicationConfig_rdfvj")
 
 [node name="GreenBall" parent="GamePlay/Balls" unique_id=2074299890 instance=ExtResource("15_ilduj")]
 
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="GamePlay/Balls/GreenBall" unique_id=2061976714]
+replication_config = SubResource("SceneReplicationConfig_rdfvj")
+
 [node name="PurpleBall" parent="GamePlay/Balls" unique_id=1034441496 instance=ExtResource("16_s2xbw")]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="GamePlay/Balls/PurpleBall" unique_id=1547348754]
+replication_config = SubResource("SceneReplicationConfig_rdfvj")
 
 [connection signal="ToggleInitialButton" from="Controls/SceneProxy" to="GamePlay/CanvasGroup/NonPausable/MenuButton" method="SetButtonPressed"]
 [connection signal="value_changed" from="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox" to="Controls/SettingsProxy" method="OnMaxAngleChange"]
 [connection signal="value_changed" from="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox2" to="Controls/SettingsProxy" method="OnMaxSpeedChange"]
 [connection signal="value_changed" from="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox3" to="Controls/SettingsProxy" method="OnSpeedIncreaseFactorChange"]
-[connection signal="toggled" from="CanvasLayer/SettingsMenu/VBoxContainer/ShowControlsToggle" to="Controls/SettingsProxy" method="OnVisibleControlsToggled"]
-[connection signal="CanvasRequest" from="CanvasLayer/SettingsMenu/VBoxContainer/BackToMenu" to="Controls/SceneProxy" method="OnMenuRequest"]
-[connection signal="pressed" from="CanvasLayer/SettingsMenu/VBoxContainer/BackToMenu" to="CanvasLayer/SettingsMenu/VBoxContainer/BackToMenu" method="OnCanvasRequest"]
+[connection signal="CanvasRequest" from="CanvasLayer/SettingsMenu/BackToMenu" to="Controls/SceneProxy" method="OnMenuRequest"]
+[connection signal="pressed" from="CanvasLayer/SettingsMenu/BackToMenu" to="CanvasLayer/SettingsMenu/BackToMenu" method="OnCanvasRequest"]
+[connection signal="toggled" from="CanvasLayer/SettingsMenu/ShowControlsToggle" to="Controls/SettingsProxy" method="OnVisibleControlsToggled"]
 [connection signal="CanvasRequest" from="CanvasLayer/Menu/VBoxContainer/Settings" to="Controls/SceneProxy" method="OnMenuRequest"]
 [connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Settings" to="CanvasLayer/Menu/VBoxContainer/Settings" method="OnCanvasRequest"]
 [connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Restart" to="Controls/SceneProxy" method="OnRestart"]
 [connection signal="SceneRequest" from="CanvasLayer/Menu/VBoxContainer/Manual" to="Controls/SceneProxy" method="OnSceneSwapped"]
 [connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Manual" to="CanvasLayer/Menu/VBoxContainer/Manual" method="RequestSceneSwap"]
+[connection signal="CanvasRequest" from="CanvasLayer/Menu/VBoxContainer/Manual2" to="Controls/SceneProxy" method="OnMenuRequest"]
+[connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Manual2" to="CanvasLayer/Menu/VBoxContainer/Manual2" method="OnCanvasRequest"]
 [connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Exit" to="Controls/SceneProxy" method="OnExit"]
+[connection signal="pressed" from="CanvasLayer/CanvasGroup/VBoxContainer/Button" to="CanvasLayer/CanvasGroup/VBoxContainer" method="OnServerPressed"]
+[connection signal="pressed" from="CanvasLayer/CanvasGroup/VBoxContainer/Button2" to="CanvasLayer/CanvasGroup/VBoxContainer" method="OnClientPressed"]
 [connection signal="PlayerDamaged" from="GamePlay/Player2/DamageHandler" to="GamePlay/CanvasGroup/Marker" method="AddScore"]
 [connection signal="PlayerDamaged" from="GamePlay/Player1/DamageHandler" to="GamePlay/CanvasGroup/Marker" method="AddScore"]
 [connection signal="GoalReached" from="GamePlay/Goal1" to="GamePlay/CanvasGroup/Marker" method="AddScore"]

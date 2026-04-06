@@ -48,6 +48,7 @@ Paddles=""
 Ball=""
 Controls=""
 Marker=""
+ServerPaddles=""
 
 [input]
 
