@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://btagjraev2506"]
+
+[ext_resource type="Script" uid="uid://klcphefobype" path="res://Assets/Scripts/UI/LockAsClient.cs" id="1_podx6"]
+
+[node name="HideWhenClient" type="Control" unique_id=675681209]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_podx6")

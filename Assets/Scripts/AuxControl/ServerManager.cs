@@ -9,7 +9,7 @@ public partial class ServerManager : Node
 
 	[Export] int max_players = 2;
 	ENetMultiplayerPeer peer;
-
+	[Signal] public delegate void ClientConnectedEventHandler();
 	Node paddle1;
 
 	public static ServerManager _instance;
@@ -51,6 +51,8 @@ public partial class ServerManager : Node
 		}
 		Multiplayer.MultiplayerPeer = peer;
 		GD.Print("Client connected to " + IP_ADDRESS + ":" + PORT);
+
+		EmitSignal(nameof(ClientConnected));
 	}
 
 	private void OnPeerConnected(long id)
