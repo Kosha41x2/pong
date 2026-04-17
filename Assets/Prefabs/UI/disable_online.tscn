@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bwpx8omkjsk28"]
+
+[ext_resource type="Script" uid="uid://ok47rk0k2c1y" path="res://Assets/Scripts/UI/DisableOnline.cs" id="1_7u04m"]
+
+[node name="DisableOnline" type="Control" unique_id=200145226]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_7u04m")

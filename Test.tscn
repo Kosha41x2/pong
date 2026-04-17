@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://cipymaewxbc5q" path="res://Assets/Scripts/AuxControl/BallRandomizerManager.cs" id="3_r6p7k"]
 [ext_resource type="Script" uid="uid://cp7g1u0k6a1f3" path="res://Assets/Scripts/UI/CopySettingsToUI.cs" id="3_vwb7u"]
 [ext_resource type="Script" uid="uid://lyi23jaxt6py" path="res://Assets/Scripts/UI/Marker.cs" id="4_8tn2x"]
+[ext_resource type="Script" uid="uid://be18nlgc8fg44" path="res://Assets/Scripts/AuxControl/OnlineVSOffline.cs" id="4_ctmup"]
 [ext_resource type="AudioStream" uid="uid://46g57c8ia0dj" path="res://Assets/Music/Main Theme.mp3" id="5_aq4fw"]
 [ext_resource type="PackedScene" uid="uid://btagjraev2506" path="res://Assets/Prefabs/UI/hide_when_client.tscn" id="5_iw7q2"]
 [ext_resource type="Script" uid="uid://ckre288t2lubu" path="res://Assets/Scripts/UI/Button/SceneSwapper.cs" id="6_d1b21"]
@@ -14,7 +15,11 @@
 [ext_resource type="Script" uid="uid://dewdtmhje8y1f" path="res://Assets/Scripts/UI/Button/ServerUI.cs" id="7_rdfvj"]
 [ext_resource type="Script" uid="uid://bo8s2f24vt8g5" path="res://Assets/Scripts/AuxControl/SceneProxy.cs" id="9_c4vo5"]
 [ext_resource type="Script" uid="uid://buj7uodete2nc" path="res://Assets/Scripts/AuxControl/SettingsProxy.cs" id="9_vwb7u"]
+[ext_resource type="Script" uid="uid://gy7fs7a2wt1" path="res://ChangeButtonOnline.cs" id="10_nm833"]
 [ext_resource type="PackedScene" uid="uid://1mnh6s5jyjmb" path="res://Assets/Prefabs/YellowBall.tscn" id="11_rc7cs"]
+[ext_resource type="PackedScene" uid="uid://bwpx8omkjsk28" path="res://Assets/Prefabs/UI/disable_online.tscn" id="11_xyx0r"]
+[ext_resource type="Script" uid="uid://ddqmq6geaemad" path="res://Assets/Scripts/UI/ShowSelectedNode.cs" id="12_ixknr"]
+[ext_resource type="Script" uid="uid://0833vniv3idx" path="res://ChangeTextDependingOnOnline.cs" id="13_q8vq6"]
 [ext_resource type="PackedScene" uid="uid://2ws6m6bujlh7" path="res://Assets/Prefabs/RedBall.tscn" id="13_rc7cs"]
 [ext_resource type="PackedScene" uid="uid://bq57c6ertq0j5" path="res://Assets/Prefabs/GreenBall.tscn" id="15_ilduj"]
 [ext_resource type="PackedScene" uid="uid://bvs76c5s2hb0a" path="res://Assets/Prefabs/PurpleBall.tscn" id="16_s2xbw"]
@@ -55,6 +60,9 @@ canvasLayer = NodePath("../../CanvasLayer")
 script = ExtResource("3_r6p7k")
 balls = [NodePath("../../GamePlay/Balls/Ball"), NodePath("../../GamePlay/Balls/YellowBall"), NodePath("../../GamePlay/Balls/RedBall"), NodePath("../../GamePlay/Balls/GreenBall"), NodePath("../../GamePlay/Balls/PurpleBall")]
 firstBall = NodePath("../../GamePlay/Balls/Ball")
+
+[node name="OfflineChecker" type="Node2D" parent="Controls" unique_id=1604982303]
+script = ExtResource("4_ctmup")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=467289503]
 process_mode = 3
@@ -192,7 +200,6 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("3_vwb7u")
-settingType = 3
 
 [node name="Menu" type="CanvasGroup" parent="CanvasLayer" unique_id=1176875453]
 process_mode = 3
@@ -206,9 +213,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -175.0
-offset_top = -112.62207
+offset_top = -124.58194
 offset_right = 175.0
-offset_bottom = 67.37793
+offset_bottom = 73.23111
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1, 1.4107438)
@@ -245,6 +252,14 @@ canvasGroup = NodePath("../..")
 initialText = "Restart"
 changeText = "Restart"
 
+[node name="Settings2" type="Button" parent="CanvasLayer/Menu/VBoxContainer" unique_id=746181421 node_paths=PackedStringArray("canvasGroup")]
+layout_mode = 2
+text = "Customize Skins"
+script = ExtResource("7_c4vo5")
+canvasGroup = NodePath("../../../Customize Skins")
+initialText = "Customize Skins"
+changeText = "Customize Skins"
+
 [node name="Manual" type="Button" parent="CanvasLayer/Menu/VBoxContainer" unique_id=1616150996]
 layout_mode = 2
 text = "Manual"
@@ -273,9 +288,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -175.0
-offset_top = -53.0
+offset_top = -62.0
 offset_right = 175.0
-offset_bottom = 127.0
+offset_bottom = 143.2703
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1, 0.7307438)
@@ -288,9 +303,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -143.0
-offset_top = -84.71571
+offset_top = -85.0
 offset_right = 143.0
-offset_bottom = 110.28429
+offset_bottom = 110.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 10
@@ -300,10 +315,83 @@ script = ExtResource("7_rdfvj")
 [node name="Button" type="Button" parent="CanvasLayer/CanvasGroup/VBoxContainer" unique_id=945923532]
 layout_mode = 2
 text = "Server"
+script = ExtResource("10_nm833")
 
 [node name="Button2" type="Button" parent="CanvasLayer/CanvasGroup/VBoxContainer" unique_id=324648170]
 layout_mode = 2
 text = "Client"
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/CanvasGroup/VBoxContainer" unique_id=2073804832 groups=["IPField"]]
+layout_mode = 2
+placeholder_text = "Server to join's IP"
+alignment = 1
+
+[node name="Customize Skins" type="CanvasGroup" parent="CanvasLayer" unique_id=184865299]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Customize Skins" unique_id=1069281319]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -190.90137
+offset_right = 125.0
+offset_bottom = 190.90137
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1, 0.7307438)
+size_flags_horizontal = 4
+color = Color(0.41568628, 0.4392157, 1, 0.36078432)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Customize Skins" unique_id=304787645]
+custom_minimum_size = Vector2(200, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -166.0
+offset_right = 100.0
+offset_bottom = 58.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 99
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Customize Skins/HBoxContainer" unique_id=587828455]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+
+[node name="OptionButton" type="OptionButton" parent="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer" unique_id=2120891541]
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "Player1"
+popup/item_0/id = 0
+popup/item_1/text = "Player2"
+popup/item_1/id = 1
+
+[node name="DisableOnline" parent="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/OptionButton" unique_id=200145226 instance=ExtResource("11_xyx0r")]
+layout_mode = 0
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer" unique_id=1720330197]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+script = ExtResource("12_ixknr")
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/CenterContainer" unique_id=1429014346]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+color = Color(1, 1, 1, 1)
+
+[node name="ColorPickerButton2" type="ColorPickerButton" parent="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/CenterContainer" unique_id=898769916 groups=["ClientAuthority"]]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+color = Color(1, 1, 1, 1)
 
 [node name="GamePlay" type="Node2D" parent="." unique_id=1216209999]
 
@@ -420,6 +508,9 @@ size_flags_horizontal = 0
 bbcode_enabled = true
 text = "[wave][outline_size=10] [font_size=30] W/S"
 fit_content = true
+script = ExtResource("13_q8vq6")
+offlineText = "[wave][outline_size=10] [font_size=30] W/S"
+onlineText = "[wave][outline_size=10] [font_size=30] Up/Down"
 metadata/_edit_use_anchors_ = true
 
 [node name="Controls2" type="RichTextLabel" parent="GamePlay/CanvasGroup/Controls" unique_id=1213704745 groups=["Controls"]]
@@ -471,6 +562,8 @@ replication_config = SubResource("SceneReplicationConfig_rdfvj")
 replication_config = SubResource("SceneReplicationConfig_rdfvj")
 
 [connection signal="ToggleInitialButton" from="Controls/SceneProxy" to="GamePlay/CanvasGroup/NonPausable/MenuButton" method="SetButtonPressed"]
+[connection signal="OfflineModeActivated" from="Controls/OfflineChecker" to="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/OptionButton/DisableOnline" method="OnOfflinePressed"]
+[connection signal="OnlineModeActivated" from="Controls/OfflineChecker" to="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/OptionButton/DisableOnline" method="OnOnlinePressed"]
 [connection signal="value_changed" from="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox" to="Controls/SettingsProxy" method="OnMaxAngleChange"]
 [connection signal="value_changed" from="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox2" to="Controls/SettingsProxy" method="OnMaxSpeedChange"]
 [connection signal="value_changed" from="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox3" to="Controls/SettingsProxy" method="OnSpeedIncreaseFactorChange"]
@@ -480,6 +573,8 @@ replication_config = SubResource("SceneReplicationConfig_rdfvj")
 [connection signal="CanvasRequest" from="CanvasLayer/Menu/VBoxContainer/Settings" to="Controls/SceneProxy" method="OnMenuRequest"]
 [connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Settings" to="CanvasLayer/Menu/VBoxContainer/Settings" method="OnCanvasRequest"]
 [connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Restart" to="Controls/SceneProxy" method="OnRestart"]
+[connection signal="CanvasRequest" from="CanvasLayer/Menu/VBoxContainer/Settings2" to="Controls/SceneProxy" method="OnMenuRequest"]
+[connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Settings2" to="CanvasLayer/Menu/VBoxContainer/Settings2" method="OnCanvasRequest"]
 [connection signal="SceneRequest" from="CanvasLayer/Menu/VBoxContainer/Manual" to="Controls/SceneProxy" method="OnSceneSwapped"]
 [connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Manual" to="CanvasLayer/Menu/VBoxContainer/Manual" method="RequestSceneSwap"]
 [connection signal="CanvasRequest" from="CanvasLayer/Menu/VBoxContainer/Manual2" to="Controls/SceneProxy" method="OnMenuRequest"]
@@ -487,6 +582,9 @@ replication_config = SubResource("SceneReplicationConfig_rdfvj")
 [connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Exit" to="Controls/SceneProxy" method="OnExit"]
 [connection signal="pressed" from="CanvasLayer/CanvasGroup/VBoxContainer/Button" to="CanvasLayer/CanvasGroup/VBoxContainer" method="OnServerPressed"]
 [connection signal="pressed" from="CanvasLayer/CanvasGroup/VBoxContainer/Button2" to="CanvasLayer/CanvasGroup/VBoxContainer" method="OnClientPressed"]
+[connection signal="item_selected" from="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/OptionButton" to="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/CenterContainer" method="OnNodeSelected"]
+[connection signal="color_changed" from="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/CenterContainer/ColorPickerButton" to="GamePlay/Player1/Sprite2D/ControlColor" method="OnColorSelected"]
+[connection signal="color_changed" from="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/CenterContainer/ColorPickerButton2" to="GamePlay/Player2/Sprite2D/ControlColor" method="OnColorSelected"]
 [connection signal="PlayerDamaged" from="GamePlay/Player2/DamageHandler" to="GamePlay/CanvasGroup/Marker" method="AddScore"]
 [connection signal="PlayerDamaged" from="GamePlay/Player1/DamageHandler" to="GamePlay/CanvasGroup/Marker" method="AddScore"]
 [connection signal="GoalReached" from="GamePlay/Goal1" to="GamePlay/CanvasGroup/Marker" method="AddScore"]

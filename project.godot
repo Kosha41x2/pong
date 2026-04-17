@@ -49,6 +49,7 @@ Ball=""
 Controls=""
 Marker=""
 ServerPaddles=""
+ClientAuthority=""
 
 [input]
 

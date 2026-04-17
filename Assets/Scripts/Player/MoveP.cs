@@ -30,10 +30,12 @@ public partial class MoveP : Node2D
 		if(isOffline)
 		{
 			inputDir = Input.GetActionStrength("move_down_" + inputSuffix) - Input.GetActionStrength("move_up_" + inputSuffix);
+			GD.Print("Online status: Offline. Using input actions with suffix: " + inputSuffix);
 		}
 		else
 		{
 			inputDir = Input.GetActionStrength("move_down_p1") - Input.GetActionStrength("move_up_p1");
+			GD.Print("Online status: Online. Using input actions with suffix: p1");
 		}
 
 

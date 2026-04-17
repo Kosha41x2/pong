@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.ComponentModel;
+using Godot.Collections;
 using System.Linq;
 
 public partial class ServerManager : Node
@@ -7,10 +9,17 @@ public partial class ServerManager : Node
 	const string IP_ADDRESS = "localhost";
 	const int PORT = 42069;
 
+	string ipInput;
+
 	[Export] int max_players = 2;
 	ENetMultiplayerPeer peer;
 	[Signal] public delegate void ClientConnectedEventHandler();
+	[Signal] public delegate void ServerCreatedEventHandler();
 	Node paddle1;
+
+	Array<Node> nodesToGiveAuthority = new Array<Node>();
+
+	LineEdit ipField;
 
 	public static ServerManager _instance;
 
@@ -24,6 +33,8 @@ public partial class ServerManager : Node
 		_instance = this;
 
 		paddle1 = GetTree().GetFirstNodeInGroup("ServerPaddles");
+		nodesToGiveAuthority = GetTree().GetNodesInGroup("ClientAuthority");
+		ipField = GetTree().GetFirstNodeInGroup("IPField") as LineEdit;
 
 		Multiplayer.PeerConnected += OnPeerConnected;
 	}
@@ -37,20 +48,23 @@ public partial class ServerManager : Node
 			return;
 		}
 		Multiplayer.MultiplayerPeer = peer;
+
+		EmitSignal(nameof(ServerCreated));
 		GD.Print("Server started on port " + PORT);
+		GD.Print("Local IP Address: " + GetLocalIPAddress());
 	}
 
 	public void StartClient()
 	{
 		peer = new ENetMultiplayerPeer();
-		var result = peer.CreateClient(IP_ADDRESS, PORT);
+		var result = peer.CreateClient(ipField.Text, PORT);
 		if (result != Error.Ok)
 		{
 			GD.PrintErr("Failed to create client: " + result);
 			return;
 		}
 		Multiplayer.MultiplayerPeer = peer;
-		GD.Print("Client connected to " + IP_ADDRESS + ":" + PORT);
+		GD.Print("Client connected to " + ipField.Text + ":" + PORT);
 
 		EmitSignal(nameof(ClientConnected));
 	}
@@ -61,6 +75,10 @@ public partial class ServerManager : Node
         {
             GD.Print($"Client Connected with: {id}. Giving them to the paddle.");
             paddle1.SetMultiplayerAuthority((int)id);
+			foreach (Node node in nodesToGiveAuthority)
+			{
+				node.SetMultiplayerAuthority((int)id);
+			}
             RpcId(id, nameof(AssignAuthorityToClient), id);
         }
     }
@@ -71,4 +89,24 @@ public partial class ServerManager : Node
         paddle1.SetMultiplayerAuthority((int)id);
         GD.Print("I'm the client and I've been assigned authority to the paddle!");
     }
+
+	public string GetLocalIPAddress()
+	{
+		var host = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName());
+		var ipAddress = host.AddressList.FirstOrDefault(ip => ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
+		return ipAddress?.ToString() ?? "No network adapters with an IPv4 address in the system!";
+	}
+
+	public string GetConnectedIPAddress()
+	{
+		if (Multiplayer.IsServer())
+		{
+			return GetLocalIPAddress();
+		}
+		else
+		{
+			var enetPeer = Multiplayer.MultiplayerPeer as ENetMultiplayerPeer;
+			return enetPeer?.GetPeer(1)?.GetRemoteAddress() ?? "Unknown";
+		}
+	}
 }

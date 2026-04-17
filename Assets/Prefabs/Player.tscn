@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dkmqdshigwso8" path="res://Assets/Scripts/Player/MoveP.cs" id="1_yepln"]
 [ext_resource type="Texture2D" uid="uid://l8bw6lcaqpwd" path="res://Assets/sprites/paddle.jpg" id="2_64e7q"]
 [ext_resource type="Script" uid="uid://m6nuxjub1vd8" path="res://Assets/Scripts/Player/DamageHandle.cs" id="3_617b0"]
+[ext_resource type="Script" uid="uid://b10boivrtoer6" path="res://Assets/Scripts/Player/ColorController.cs" id="4_1e55f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_myinc"]
 size = Vector2(195.14656, 406.7293)
@@ -12,6 +13,9 @@ size = Vector2(195.14656, 406.7293)
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
+properties/1/path = NodePath("Sprite2D:modulate")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=349456793 groups=["Paddles"]]
 scale = Vector2(0.11, 0.11)
@@ -29,6 +33,9 @@ one_way_collision_margin = 0.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=34132164]
 texture = ExtResource("2_64e7q")
+
+[node name="ControlColor" type="Node2D" parent="Sprite2D" unique_id=1461741050]
+script = ExtResource("4_1e55f")
 
 [node name="DamageHandler" type="Node2D" parent="." unique_id=1486152322]
 script = ExtResource("3_617b0")

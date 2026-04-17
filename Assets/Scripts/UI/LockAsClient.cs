@@ -27,12 +27,43 @@ public partial class LockAsClient : Control
 			parentControl.Modulate = new Color(parentControl.Modulate.R, parentControl.Modulate.G, parentControl.Modulate.B, 0.5f);
 			parentControl.MouseFilter = MouseFilterEnum.Ignore;
 
+
+
 			if(parentControl is SpinBox spinBox)
 			{
 				spinBox.Editable = false;
+			} else if(parentControl is Button button)
+			{
+				button.Disabled = true;
+			} else if(parentControl is HSlider hSlider)
+			{
+				hSlider.Editable = false;
+			} else if(parentControl is LineEdit lineEdit)
+			{
+				lineEdit.Editable = false;
 			}
 
 			GD.Print("Locked as client.");
+		}else
+		{
+			parentControl.Modulate = new Color(parentControl.Modulate.R, parentControl.Modulate.G, parentControl.Modulate.B, 1f);
+			parentControl.MouseFilter = MouseFilterEnum.Stop;
+
+			if(parentControl is SpinBox spinBox)
+			{
+				spinBox.Editable = true;
+			} else if(parentControl is Button button)
+			{
+				button.Disabled = false;
+			} else if(parentControl is HSlider hSlider)
+			{
+				hSlider.Editable = true;
+			} else if(parentControl is LineEdit lineEdit)
+			{
+				lineEdit.Editable = true;
+			}
+
+			GD.Print("Unlocked as client.");
 		}
 	}
 }
