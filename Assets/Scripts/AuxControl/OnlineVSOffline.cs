@@ -10,6 +10,7 @@ public partial class OnlineVSOffline : Node
 	{
 		ServerManager._instance.ClientConnected += SwitchOnlineLogic;
 		ServerManager._instance.ServerCreated += SwitchOnlineLogic;
+		ServerManager._instance.OfflineMode += SwitchOnlineLogic;
 		_instance = this;
 	}
 
@@ -19,12 +20,13 @@ public partial class OnlineVSOffline : Node
 		{
 			ServerManager._instance.ClientConnected -= SwitchOnlineLogic;
 			ServerManager._instance.ServerCreated -= SwitchOnlineLogic;
+			ServerManager._instance.OfflineMode -= SwitchOnlineLogic;
 		}
 	}
 
 	public void SwitchOnlineLogic()
 	{
-		bool isOffline = Multiplayer.MultiplayerPeer == null || Multiplayer.MultiplayerPeer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Disconnected;
+		bool isOffline = Multiplayer.MultiplayerPeer is OfflineMultiplayerPeer || Multiplayer.MultiplayerPeer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Disconnected;
 
 		if (isOffline)
 		{

@@ -10,10 +10,21 @@ public partial class LockAsClient : Control
 		if (serverManager != null)
 		{
 			serverManager.ClientConnected += OnClientPressed;
+			serverManager.OfflineMode += OnClientPressed;
 		}
 		else
 		{
 			GD.PrintErr("ServerManager instance not found. LockAsClient will not function properly.");
+		}
+	}
+
+	public override void _ExitTree()
+	{
+		ServerManager serverManager = ServerManager._instance;
+		if (serverManager != null)
+		{
+			serverManager.ClientConnected -= OnClientPressed;
+			serverManager.OfflineMode -= OnClientPressed;
 		}
 	}
 	public void OnClientPressed()

@@ -13,12 +13,17 @@ public partial class BallRandomizerManager : Node2D
     public override void _Ready()
     {
 		Instance = this;
-        foreach(Ball ball in balls)
+		Reset();
+    }
+
+	public void Reset()
+	{
+		foreach(Ball ball in balls)
 		{
 			ball.Deactivate();
 		}
 		firstBall.Activate(new Vector2(0,0));
-    }
+	}
 
 	public Ball GetRandomBall()
 	{

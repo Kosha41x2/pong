@@ -5,6 +5,7 @@ using System.Linq;
 
 public partial class SceneManager : Node
 {
+	[Export] string reset = "reset";
 	public Dictionary<string, GameData> SceneSnapshots = new Dictionary<string, GameData>();
 	private List<CanvasGroup> canvasGroups = new List<CanvasGroup>();
 
@@ -22,41 +23,27 @@ public partial class SceneManager : Node
         SceneSnapshots[scenePath] = currentSnapshot;
     }
 
-	public void LoadSceneState()
+	private void LoadSceneState(string scenePath)
     {
-		if(GetTree().CurrentScene == null)
+    	if(SceneSnapshots.ContainsKey(scenePath))
 		{
-			GD.Print("Current scene is null");
-			return;
-		}
-
-		if(GetTree().CurrentScene.SceneFilePath == null)
-		{
-			GD.Print("Current scene file path is null");
-			return;
-		}
-
-    	if(SceneSnapshots.ContainsKey(GetTree().CurrentScene.SceneFilePath))
-		{
-			GameData snapshot = SceneSnapshots[GetTree().CurrentScene.SceneFilePath];
+			GameData snapshot = SceneSnapshots[scenePath];
 			if (snapshot != null)
 			{
 				snapshot.ApplyState(GetTree().GetNodesInGroup("Ball").Cast<Ball>().ToArray(), 
 									GetTree().GetNodesInGroup("Paddles").Cast<PlayerData>().ToArray(), 
 									GetTree().GetNodesInGroup("Marker").Cast<Marker>().FirstOrDefault());
 
-				GD.Print($"Loaded state for scene {GetTree().CurrentScene.SceneFilePath}: Ball at {snapshot.ballSaves[0].Position} with velocity {snapshot.ballSaves[0].Velocity}, Paddle 0 at {snapshot.paddlePositions[0]}, Paddle 1 at {snapshot.paddlePositions[1]}, Scores: {snapshot.scores[0]} - {snapshot.scores[1]}");
+				GD.Print($"Loaded state for scene {scenePath}: Ball at {snapshot.ballSaves[0].Position} with velocity {snapshot.ballSaves[0].Velocity}, Paddle 0 at {snapshot.paddlePositions[0]}, Paddle 1 at {snapshot.paddlePositions[1]}, Scores: {snapshot.scores[0]} - {snapshot.scores[1]}");
 			}
-
-			GetTree().Paused = false;
 		}
 		else
 		{
-			GD.Print($"No saved state found for scene {GetTree().CurrentScene.SceneFilePath}");
+			GD.Print($"No saved state found for scene {scenePath}");
 		}	
     }
 
-	public async void SwapScene(string scenePath, bool saveScene)
+	public async void SwapScene(string scenePath, bool saveScene, bool pause = false)
 	{
     	if (saveScene && GetTree().CurrentScene != null)
         	SaveSceneState(GetTree().CurrentScene.SceneFilePath);
@@ -67,14 +54,24 @@ public partial class SceneManager : Node
 
     	await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 
-    	LoadSceneState();
+    	LoadSceneState(scenePath);
+
+		GetTree().Paused = pause;
 
     	GD.Print($"Swapped to scene {scenePath}");
 	}
 
-	public override void _Ready()
+	public async override void _Ready()
 	{
 		Instance = this;
+		// Create a initial snapshot for the starting scene
+		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+
+		if(GetTree().CurrentScene != null)
+		{
+			SaveSceneState(reset); // Use a special key for the initial state
+			GD.Print($"Initial scene state saved for {GetTree().CurrentScene.SceneFilePath} with key '{reset}'");
+		}
 	}
 
 	public void UpdateCanvasGroups(CanvasLayer menuCanvasLayer)
@@ -110,10 +107,16 @@ public partial class SceneManager : Node
 
 	public void OnRestart()
 	{
+		Rpc(nameof(ResetGameState));
+	}
+
+	[Rpc(CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	private void ResetGameState()
+	{
 		GetTree().Paused = false;
-		canvasGroups.Clear();
-		GetTree().ReloadCurrentScene();
 		isReloading = true;
-		GetTree().Paused = false;
+		LoadSceneState(reset);
+		BallRandomizerManager.Instance.Reset();
+		GetTree().Paused = true;
 	}
 }

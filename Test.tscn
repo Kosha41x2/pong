@@ -40,6 +40,12 @@ properties/1/path = NodePath(".:visible")
 properties/1/spawn = true
 properties/1/replication_mode = 1
 
+[sub_resource type="Environment" id="Environment_ixknr"]
+background_mode = 3
+glow_enabled = true
+glow_intensity = 0.82
+glow_bloom = 0.93
+
 [node name="Node2D" type="Node2D" unique_id=2034202261]
 position = Vector2(0, -1)
 
@@ -252,6 +258,9 @@ canvasGroup = NodePath("../..")
 initialText = "Restart"
 changeText = "Restart"
 
+[node name="HideWhenClient" parent="CanvasLayer/Menu/VBoxContainer/Restart" unique_id=1327226408 instance=ExtResource("5_iw7q2")]
+layout_mode = 0
+
 [node name="Settings2" type="Button" parent="CanvasLayer/Menu/VBoxContainer" unique_id=746181421 node_paths=PackedStringArray("canvasGroup")]
 layout_mode = 2
 text = "Customize Skins"
@@ -288,12 +297,13 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -175.0
-offset_top = -62.0
+offset_top = -79.0
 offset_right = 175.0
-offset_bottom = 143.2703
+offset_bottom = 173.73398
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1, 0.7307438)
+size_flags_horizontal = 4
 color = Color(0.41568628, 0.4392157, 1, 0.36078432)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CanvasGroup" unique_id=1282975979]
@@ -320,6 +330,10 @@ script = ExtResource("10_nm833")
 [node name="Button2" type="Button" parent="CanvasLayer/CanvasGroup/VBoxContainer" unique_id=324648170]
 layout_mode = 2
 text = "Client"
+
+[node name="Button3" type="Button" parent="CanvasLayer/CanvasGroup/VBoxContainer" unique_id=788045775]
+layout_mode = 2
+text = "Offline"
 
 [node name="LineEdit" type="LineEdit" parent="CanvasLayer/CanvasGroup/VBoxContainer" unique_id=2073804832 groups=["IPField"]]
 layout_mode = 2
@@ -375,7 +389,7 @@ popup/item_0/id = 0
 popup/item_1/text = "Player2"
 popup/item_1/id = 1
 
-[node name="DisableOnline" parent="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/OptionButton" unique_id=200145226 instance=ExtResource("11_xyx0r")]
+[node name="DisableOnline" parent="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/OptionButton" unique_id=1898459206 instance=ExtResource("11_xyx0r")]
 layout_mode = 0
 
 [node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer" unique_id=1720330197]
@@ -561,6 +575,9 @@ replication_config = SubResource("SceneReplicationConfig_rdfvj")
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="GamePlay/Balls/PurpleBall" unique_id=1547348754]
 replication_config = SubResource("SceneReplicationConfig_rdfvj")
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="GamePlay" unique_id=1814704406]
+environment = SubResource("Environment_ixknr")
+
 [connection signal="ToggleInitialButton" from="Controls/SceneProxy" to="GamePlay/CanvasGroup/NonPausable/MenuButton" method="SetButtonPressed"]
 [connection signal="OfflineModeActivated" from="Controls/OfflineChecker" to="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/OptionButton/DisableOnline" method="OnOfflinePressed"]
 [connection signal="OnlineModeActivated" from="Controls/OfflineChecker" to="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/OptionButton/DisableOnline" method="OnOnlinePressed"]
@@ -582,6 +599,7 @@ replication_config = SubResource("SceneReplicationConfig_rdfvj")
 [connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Exit" to="Controls/SceneProxy" method="OnExit"]
 [connection signal="pressed" from="CanvasLayer/CanvasGroup/VBoxContainer/Button" to="CanvasLayer/CanvasGroup/VBoxContainer" method="OnServerPressed"]
 [connection signal="pressed" from="CanvasLayer/CanvasGroup/VBoxContainer/Button2" to="CanvasLayer/CanvasGroup/VBoxContainer" method="OnClientPressed"]
+[connection signal="pressed" from="CanvasLayer/CanvasGroup/VBoxContainer/Button3" to="CanvasLayer/CanvasGroup/VBoxContainer" method="OnOfflinePressed"]
 [connection signal="item_selected" from="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/OptionButton" to="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/CenterContainer" method="OnNodeSelected"]
 [connection signal="color_changed" from="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/CenterContainer/ColorPickerButton" to="GamePlay/Player1/Sprite2D/ControlColor" method="OnColorSelected"]
 [connection signal="color_changed" from="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/CenterContainer/ColorPickerButton2" to="GamePlay/Player2/Sprite2D/ControlColor" method="OnColorSelected"]

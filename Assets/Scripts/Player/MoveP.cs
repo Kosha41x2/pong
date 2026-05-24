@@ -24,18 +24,16 @@ public partial class MoveP : Node2D
 			return;
 		}
 
-		bool isOffline = Multiplayer.MultiplayerPeer == null || Multiplayer.MultiplayerPeer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Connecting || Multiplayer.MultiplayerPeer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Disconnected;
+		bool isOffline = Multiplayer.MultiplayerPeer is OfflineMultiplayerPeer || Multiplayer.MultiplayerPeer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Connecting || Multiplayer.MultiplayerPeer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Disconnected;
 		float inputDir = 0.0f;
 
 		if(isOffline)
 		{
 			inputDir = Input.GetActionStrength("move_down_" + inputSuffix) - Input.GetActionStrength("move_up_" + inputSuffix);
-			GD.Print("Online status: Offline. Using input actions with suffix: " + inputSuffix);
 		}
 		else
 		{
 			inputDir = Input.GetActionStrength("move_down_p1") - Input.GetActionStrength("move_up_p1");
-			GD.Print("Online status: Online. Using input actions with suffix: p1");
 		}
 
 

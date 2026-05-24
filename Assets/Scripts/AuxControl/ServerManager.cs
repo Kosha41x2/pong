@@ -1,3 +1,4 @@
+
 using Godot;
 using System;
 using System.ComponentModel;
@@ -15,6 +16,8 @@ public partial class ServerManager : Node
 	ENetMultiplayerPeer peer;
 	[Signal] public delegate void ClientConnectedEventHandler();
 	[Signal] public delegate void ServerCreatedEventHandler();
+
+	[Signal] public delegate void OfflineModeEventHandler();
 	Node paddle1;
 
 	Array<Node> nodesToGiveAuthority = new Array<Node>();
@@ -38,10 +41,16 @@ public partial class ServerManager : Node
 
 		Multiplayer.PeerConnected += OnPeerConnected;
 	}
+	override public void _ExitTree()
+	{
+		Multiplayer.PeerConnected -= OnPeerConnected;
+	}
 	public void StartServer()
 	{
+		StartOffline();
 		peer = new ENetMultiplayerPeer();
 		var result = peer.CreateServer(PORT, max_players);
+
 		if (result != Error.Ok)
 		{
 			GD.PrintErr("Failed to create server: " + result);
@@ -56,8 +65,10 @@ public partial class ServerManager : Node
 
 	public void StartClient()
 	{
+		StartOffline();
 		peer = new ENetMultiplayerPeer();
 		var result = peer.CreateClient(ipField.Text, PORT);
+
 		if (result != Error.Ok)
 		{
 			GD.PrintErr("Failed to create client: " + result);
@@ -67,6 +78,21 @@ public partial class ServerManager : Node
 		GD.Print("Client connected to " + ipField.Text + ":" + PORT);
 
 		EmitSignal(nameof(ClientConnected));
+	}
+
+	public void StartOffline()
+	{
+		bool isOffline = Multiplayer.MultiplayerPeer is OfflineMultiplayerPeer || Multiplayer.MultiplayerPeer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Disconnected;
+		if(isOffline)
+		{
+			GD.Print("Already in offline mode.");
+			return;
+		}
+
+		peer.Close();
+		Multiplayer.MultiplayerPeer = new OfflineMultiplayerPeer();
+		GD.Print("Started in offline mode.");
+		EmitSignal(nameof(OfflineMode));
 	}
 
 	private void OnPeerConnected(long id)
@@ -87,7 +113,6 @@ public partial class ServerManager : Node
     private void AssignAuthorityToClient(long id)
     {
         paddle1.SetMultiplayerAuthority((int)id);
-        GD.Print("I'm the client and I've been assigned authority to the paddle!");
     }
 
 	public string GetLocalIPAddress()

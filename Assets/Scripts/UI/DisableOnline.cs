@@ -8,6 +8,8 @@ public partial class DisableOnline : Control
 	public override void _Ready()
 	{
 		parentNode = GetParent() as Control;
+		ServerManager._instance.ClientConnected += OnOnlinePressed;
+		ServerManager._instance.OfflineMode += OnOfflinePressed;
 	}
 	public void OnOnlinePressed()
 	{

@@ -11,8 +11,11 @@ public partial class GameData : Resource
 
 	public void CaptureState(Ball[] balls, PlayerData[] paddles, Marker marker)
 	{
-		scores[0] = marker.GetScore(0);
-		scores[1] = marker.GetScore(1);
+		for(int i = 0; i < scores.Length; i++)
+		{
+			scores[i] = marker.GetScore(i);
+		}
+
 		for (int i = 0; i < balls.Length; i++)
 		{
 			if (i >= ballSaves.Count)
@@ -29,8 +32,10 @@ public partial class GameData : Resource
 
 	public void ApplyState(Ball[] balls, PlayerData[] paddles, Marker marker)
 	{
-		marker.SetScore(0, scores[0]);
-		marker.SetScore(1, scores[1]);
+		for(int i = 0; i < scores.Length; i++)
+		{
+			marker.SetScore(i, scores[i]);
+		}
 
 		foreach (Ball ball in balls)
 		{

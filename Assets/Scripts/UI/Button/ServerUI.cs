@@ -12,4 +12,9 @@ public partial class ServerUI : Node
 	{
 		ServerManager._instance.StartClient();
 	}
+
+	void OnOfflinePressed()
+	{
+		ServerManager._instance.StartOffline();
+	}
 }
