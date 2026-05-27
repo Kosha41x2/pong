@@ -37,7 +37,6 @@ public partial class ServerManager : Node
 
 		paddle1 = GetTree().GetFirstNodeInGroup("ServerPaddles");
 		nodesToGiveAuthority = GetTree().GetNodesInGroup("ClientAuthority");
-		ipField = GetTree().GetFirstNodeInGroup("IPField") as LineEdit;
 
 		Multiplayer.PeerConnected += OnPeerConnected;
 	}
@@ -66,6 +65,13 @@ public partial class ServerManager : Node
 	public void StartClient()
 	{
 		StartOffline();
+		ipField = GetTree().GetFirstNodeInGroup("IPField") as LineEdit;
+		if(ipField == null)
+		{
+			GD.PrintErr("IP Field not found in the scene. Make sure there is a LineEdit node with the group 'IPField'.");
+			return;
+		}
+		
 		peer = new ENetMultiplayerPeer();
 		var result = peer.CreateClient(ipField.Text, PORT);
 
@@ -97,17 +103,43 @@ public partial class ServerManager : Node
 
 	private void OnPeerConnected(long id)
     {
-        if (Multiplayer.IsServer())
-        {
-            GD.Print($"Client Connected with: {id}. Giving them to the paddle.");
-            paddle1.SetMultiplayerAuthority((int)id);
-			foreach (Node node in nodesToGiveAuthority)
-			{
-				node.SetMultiplayerAuthority((int)id);
-			}
-            RpcId(id, nameof(AssignAuthorityToClient), id);
-        }
+        ReassignMultiplayerAuthority(id);
     }
+
+	[Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	public void ReassignMultiplayerAuthority(long id = -1)
+	{
+		if(!Multiplayer.IsServer())
+		{
+			GD.PrintErr("Only the server can reassign multiplayer authority.");
+			return;
+		}
+
+		if(id == -1)
+		{
+			int[] peerIds = Multiplayer.GetPeers();
+			if(peerIds.Length == 0)
+			{
+				GD.Print("No clients connected. Authority will be assigned to the server.");
+				return;
+			}
+			id = peerIds[0]; // Assign authority to the first connected client
+			GD.Print($"Client with ID {id} will be assigned authority.");
+		}
+
+		paddle1 = GetTree().GetFirstNodeInGroup("ServerPaddles");
+		nodesToGiveAuthority = GetTree().GetNodesInGroup("ClientAuthority");
+
+		if(paddle1 != null && IsInstanceValid(paddle1))
+			paddle1.SetMultiplayerAuthority((int)id);
+
+		foreach (Node node in nodesToGiveAuthority)
+		{
+			if(node != null && IsInstanceValid(node))
+				node.SetMultiplayerAuthority((int)id);
+		}
+		RpcId(id, nameof(AssignAuthorityToClient), id);
+	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
     private void AssignAuthorityToClient(long id)

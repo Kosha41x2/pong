@@ -40,9 +40,9 @@ public partial class CopySettingsToUI : Control
 				}
 				break;
 			case SettingType.VisibleControls:
-				if(GetParent() is CheckButton checkButton)
+				if(GetParent() is BaseButton toggleButton)
 				{
-					checkButton.ButtonPressed = Settings.Instance.visibleControls;
+					toggleButton.ButtonPressed = Settings.Instance.visibleControls;
 				}
 				break;
 		}

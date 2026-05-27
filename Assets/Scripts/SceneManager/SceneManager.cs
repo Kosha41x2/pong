@@ -7,6 +7,8 @@ public partial class SceneManager : Node
 {
 	[Export] string reset = "reset";
 	public Dictionary<string, GameData> SceneSnapshots = new Dictionary<string, GameData>();
+
+	public Dictionary<long, bool> playerShouldBePaused = new Dictionary<long, bool>();
 	private List<CanvasGroup> canvasGroups = new List<CanvasGroup>();
 
 	public static SceneManager Instance {get; private set;}
@@ -43,7 +45,7 @@ public partial class SceneManager : Node
 		}	
     }
 
-	public async void SwapScene(string scenePath, bool saveScene, bool pause = false)
+	public async void SwapScene(string scenePath, bool saveScene, bool pause)
 	{
     	if (saveScene && GetTree().CurrentScene != null)
         	SaveSceneState(GetTree().CurrentScene.SceneFilePath);
@@ -56,7 +58,9 @@ public partial class SceneManager : Node
 
     	LoadSceneState(scenePath);
 
-		GetTree().Paused = pause;
+		ServerManager._instance.Rpc(nameof(ServerManager.ReassignMultiplayerAuthority), -1); // Reassign authority to the first client or server after scene swap
+
+		Rpc(nameof(ExecutePause), pause);
 
     	GD.Print($"Swapped to scene {scenePath}");
 	}
@@ -64,14 +68,20 @@ public partial class SceneManager : Node
 	public async override void _Ready()
 	{
 		Instance = this;
-		// Create a initial snapshot for the starting scene
-		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame); // Wait for the first frame to ensure the scene is fully loaded
+
+		OnlineVSOffline._instance.OnlineModeActivated += SetInitialPauseState;
 
 		if(GetTree().CurrentScene != null)
 		{
 			SaveSceneState(reset); // Use a special key for the initial state
 			GD.Print($"Initial scene state saved for {GetTree().CurrentScene.SceneFilePath} with key '{reset}'");
 		}
+	}
+
+	public override void _ExitTree()
+	{
+		OnlineVSOffline._instance.OnlineModeActivated -= SetInitialPauseState;
 	}
 
 	public void UpdateCanvasGroups(CanvasLayer menuCanvasLayer)
@@ -95,8 +105,7 @@ public partial class SceneManager : Node
 		GD.Print($"Setting canvas group {canvasGroup.Name} visibility to {value}");
 		canvasGroup.Visible = value;
 
-		if(canvasGroup.Visible) GetTree().Paused = true;
-		else GetTree().Paused = false;
+		Rpc(nameof(RequestPause), value, Multiplayer.GetUniqueId());
 		isReloading = false;
 	}
 
@@ -118,5 +127,53 @@ public partial class SceneManager : Node
 		LoadSceneState(reset);
 		BallRandomizerManager.Instance.Reset();
 		GetTree().Paused = true;
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	public void RequestPause(bool shouldPause, long senderId)
+	{
+		int [] peerIds = Multiplayer.GetPeers();
+
+		playerShouldBePaused[senderId] = shouldPause;
+		
+    	if (!Multiplayer.IsServer()) return;
+
+		if (!shouldPause)
+		{
+			foreach (var peerId in playerShouldBePaused.Keys.ToList())
+			{
+				if(playerShouldBePaused[peerId]) shouldPause = true; // If any player should be paused, the game remains paused
+			}
+		}
+
+        Rpc(nameof(ExecutePause), shouldPause, senderId);
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	private void ExecutePause(bool shouldPause, long senderId)
+	{
+    	GetTree().Paused = shouldPause;
+		GD.Print($"Game {(shouldPause ? "paused" : "unpaused")} by {senderId}");
+		
+		if(!playerShouldBePaused.ContainsKey(senderId)) return; // If we don't have a record of this player's pause state, do nothing
+
+		if(shouldPause)
+			SpecialUI("PauseMenu", !playerShouldBePaused[Multiplayer.GetUniqueId()]);
+		else
+			SpecialUI("PauseMenu", false);
+	}
+
+	private void SpecialUI(string tag, bool value)
+	{
+		GetTree().GetNodesInGroup(tag).Cast<Control>().ToList().ForEach(group => group.Visible = value);
+		GD.Print($"Setting visibility of UI group '{tag}' to {value}");
+	}
+
+	private void SetInitialPauseState()
+	{
+		foreach (var peerId in playerShouldBePaused.Keys.ToList())
+		{
+			playerShouldBePaused[peerId] = true; // Assume all players should be paused until they explicitly unpause
+		}
 	}
 }

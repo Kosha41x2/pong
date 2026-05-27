@@ -28,8 +28,8 @@ public partial class SceneProxy : Node
 		SceneManager.Instance.OnRestart();
 	}
 
-	private void OnSceneSwapped(string scenePath, bool saveScene)
+	private void OnSceneSwapped(string scenePath, bool saveScene, bool pauseOnSwap)
 	{
-		SceneManager.Instance.SwapScene(scenePath, saveScene);
+		SceneManager.Instance.SwapScene(scenePath, saveScene, pauseOnSwap);
 	}
 }
