@@ -126,7 +126,7 @@ canvasGroup = NodePath("../..")
 initialText = "Restart"
 changeText = "Restart"
 
-[node name="HideWhenClient" parent="CanvasLayer/Menu/VBoxContainer/Restart" unique_id=1327226408 instance=ExtResource("5_iw7q2")]
+[node name="HideWhenClient" parent="CanvasLayer/Menu/VBoxContainer/Restart" unique_id=675681209 instance=ExtResource("5_iw7q2")]
 layout_mode = 0
 
 [node name="Settings2" type="Button" parent="CanvasLayer/Menu/VBoxContainer" unique_id=746181421 node_paths=PackedStringArray("canvasGroup")]
@@ -137,14 +137,14 @@ canvasGroup = NodePath("../../../Customize Skins")
 initialText = "Customize Skins"
 changeText = "Customize Skins"
 
-[node name="Manual" type="Button" parent="CanvasLayer/Menu/VBoxContainer" unique_id=1616150996]
+[node name="MainMenu" type="Button" parent="CanvasLayer/Menu/VBoxContainer" unique_id=1028787467]
 layout_mode = 2
 text = "Main Menu"
 script = ExtResource("6_d1b21")
 scenePath = "res://Manual.tscn"
 pauseOnSwap = true
 
-[node name="DisableOnline" parent="CanvasLayer/Menu/VBoxContainer/Manual" unique_id=200145226 instance=ExtResource("11_xyx0r")]
+[node name="DisableOnline" parent="CanvasLayer/Menu/VBoxContainer/MainMenu" unique_id=200145226 instance=ExtResource("11_xyx0r")]
 layout_mode = 0
 
 [node name="Manual2" type="Button" parent="CanvasLayer/Menu/VBoxContainer" unique_id=1959376576 node_paths=PackedStringArray("canvasGroup")]
@@ -252,7 +252,7 @@ theme_override_constants/separation = 99
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 
-[node name="OptionButton" type="OptionButton" parent="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer" unique_id=2120891541]
+[node name="CharacPick" type="OptionButton" parent="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer" unique_id=2120891541]
 layout_mode = 2
 selected = 0
 item_count = 2
@@ -261,7 +261,7 @@ popup/item_0/id = 0
 popup/item_1/text = "Player2"
 popup/item_1/id = 1
 
-[node name="DisableOnline" parent="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/OptionButton" unique_id=1898459206 instance=ExtResource("11_xyx0r")]
+[node name="DisableOnline" parent="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/CharacPick" unique_id=1898459206 instance=ExtResource("11_xyx0r")]
 layout_mode = 0
 
 [node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer" unique_id=1720330197]
@@ -330,7 +330,7 @@ offset_bottom = 40.0
 script = ExtResource("3_vwb7u")
 settingType = 2
 
-[node name="HideWhenClient" parent="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox" unique_id=675681209 instance=ExtResource("5_iw7q2")]
+[node name="HideWhenClient" parent="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox" unique_id=1815320434 instance=ExtResource("5_iw7q2")]
 layout_mode = 0
 
 [node name="SpinBox2" type="SpinBox" parent="CanvasLayer/SettingsMenu/VBoxContainer" unique_id=1761166932]
@@ -584,8 +584,8 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 bbcode_enabled = true
-text = "[outline_size=30] [font_size=160][color=aqua][wave] [center]Oponent
- Paused..."
+text = "[outline_size=30] [font_size=160][color=aqua][wave] [center]Waiting for
+oponent..."
 
 [node name="NonPausable" type="Control" parent="GamePlay/firstlayer" unique_id=163735703]
 process_mode = 3
@@ -622,22 +622,22 @@ changeText = "Back"
 environment = SubResource("Environment_ixknr")
 
 [connection signal="ToggleInitialButton" from="Controls/SceneProxy" to="GamePlay/firstlayer/NonPausable/MenuButton" method="SetButtonPressed"]
-[connection signal="OfflineModeActivated" from="Controls/OfflineChecker" to="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/OptionButton/DisableOnline" method="OnOfflinePressed"]
-[connection signal="OnlineModeActivated" from="Controls/OfflineChecker" to="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/OptionButton/DisableOnline" method="OnOnlinePressed"]
+[connection signal="OfflineModeActivated" from="Controls/OfflineChecker" to="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/CharacPick/DisableOnline" method="OnOfflinePressed"]
+[connection signal="OnlineModeActivated" from="Controls/OfflineChecker" to="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/CharacPick/DisableOnline" method="OnOnlinePressed"]
 [connection signal="CanvasRequest" from="CanvasLayer/Menu/VBoxContainer/Settings" to="Controls/SceneProxy" method="OnMenuRequest"]
 [connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Settings" to="CanvasLayer/Menu/VBoxContainer/Settings" method="OnCanvasRequest"]
 [connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Restart" to="Controls/SceneProxy" method="OnRestart"]
 [connection signal="CanvasRequest" from="CanvasLayer/Menu/VBoxContainer/Settings2" to="Controls/SceneProxy" method="OnMenuRequest"]
 [connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Settings2" to="CanvasLayer/Menu/VBoxContainer/Settings2" method="OnCanvasRequest"]
-[connection signal="SceneRequest" from="CanvasLayer/Menu/VBoxContainer/Manual" to="Controls/SceneProxy" method="OnSceneSwapped"]
-[connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Manual" to="CanvasLayer/Menu/VBoxContainer/Manual" method="RequestSceneSwap"]
+[connection signal="SceneRequest" from="CanvasLayer/Menu/VBoxContainer/MainMenu" to="Controls/SceneProxy" method="OnSceneSwapped"]
+[connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/MainMenu" to="CanvasLayer/Menu/VBoxContainer/MainMenu" method="RequestSceneSwap"]
 [connection signal="CanvasRequest" from="CanvasLayer/Menu/VBoxContainer/Manual2" to="Controls/SceneProxy" method="OnMenuRequest"]
 [connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Manual2" to="CanvasLayer/Menu/VBoxContainer/Manual2" method="OnCanvasRequest"]
 [connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Exit" to="Controls/SceneProxy" method="OnExit"]
 [connection signal="pressed" from="CanvasLayer/CanvasGroup/VBoxContainer/Button" to="CanvasLayer/CanvasGroup/VBoxContainer" method="OnServerPressed"]
 [connection signal="pressed" from="CanvasLayer/CanvasGroup/VBoxContainer/Button2" to="CanvasLayer/CanvasGroup/VBoxContainer" method="OnClientPressed"]
 [connection signal="pressed" from="CanvasLayer/CanvasGroup/VBoxContainer/Button3" to="CanvasLayer/CanvasGroup/VBoxContainer" method="OnOfflinePressed"]
-[connection signal="item_selected" from="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/OptionButton" to="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/CenterContainer" method="OnNodeSelected"]
+[connection signal="item_selected" from="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/CharacPick" to="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/CenterContainer" method="OnNodeSelected"]
 [connection signal="color_changed" from="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/CenterContainer/ColorPickerButton" to="GamePlay/Player1/Sprite2D/ControlColor" method="OnColorSelected"]
 [connection signal="color_changed" from="CanvasLayer/Customize Skins/HBoxContainer/VBoxContainer/CenterContainer/ColorPickerButton2" to="GamePlay/Player2/Sprite2D/ControlColor" method="OnColorSelected"]
 [connection signal="value_changed" from="CanvasLayer/SettingsMenu/VBoxContainer/SpinBox" to="Controls/SettingsProxy" method="OnMaxAngleChange"]

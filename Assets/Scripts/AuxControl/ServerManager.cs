@@ -26,7 +26,7 @@ public partial class ServerManager : Node
 
 	public static ServerManager _instance;
 
-	override public void _Ready()
+	override public async void _Ready()
 	{
 		if (_instance != null)
 		{
@@ -35,14 +35,18 @@ public partial class ServerManager : Node
 		}
 		_instance = this;
 
+		Multiplayer.PeerConnected += OnPeerConnected;
+		Multiplayer.ServerDisconnected += OnServerLost;
+
+		await ToSignal(GetTree(), SceneTree.SignalName.SceneChanged); // Wait for the scene to change before trying to find nodes to give authority to, since they might not be in the tree yet
+
 		paddle1 = GetTree().GetFirstNodeInGroup("ServerPaddles");
 		nodesToGiveAuthority = GetTree().GetNodesInGroup("ClientAuthority");
-
-		Multiplayer.PeerConnected += OnPeerConnected;
 	}
 	override public void _ExitTree()
 	{
 		Multiplayer.PeerConnected -= OnPeerConnected;
+		Multiplayer.ServerDisconnected -= OnServerLost;
 	}
 	public void StartServer()
 	{
@@ -97,6 +101,7 @@ public partial class ServerManager : Node
 
 		peer.Close();
 		Multiplayer.MultiplayerPeer = new OfflineMultiplayerPeer();
+		ReassignMultiplayerAuthority(Multiplayer.GetUniqueId()); // Reassign authority to the local player since we're going offline
 		GD.Print("Started in offline mode.");
 		EmitSignal(nameof(OfflineMode));
 	}
@@ -105,6 +110,12 @@ public partial class ServerManager : Node
     {
         ReassignMultiplayerAuthority(id);
     }
+
+	private void OnServerLost()
+	{
+		GD.Print("Server lost. Returning to offline mode.");
+		StartOffline();
+	}
 
 	[Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	public void ReassignMultiplayerAuthority(long id = -1)
@@ -138,10 +149,11 @@ public partial class ServerManager : Node
 			if(node != null && IsInstanceValid(node))
 				node.SetMultiplayerAuthority((int)id);
 		}
+
 		RpcId(id, nameof(AssignAuthorityToClient), id);
 	}
 
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
     private void AssignAuthorityToClient(long id)
     {
         paddle1.SetMultiplayerAuthority((int)id);

@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Reflection;
 
-public partial class SceneSwapper : Node
+public partial class SceneSwapper : Button
 {
 	[Signal] public delegate void SceneRequestEventHandler(string scenePath, bool saveScene, bool pauseOnSwap);
 	[Export] private string scenePath;

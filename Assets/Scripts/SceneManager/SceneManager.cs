@@ -15,7 +15,7 @@ public partial class SceneManager : Node
 
 	public bool isReloading = false;
 
-	public void SaveSceneState(string scenePath)
+	public async void SaveSceneState(string scenePath)
     {
 		GameData currentSnapshot = new GameData();
 		currentSnapshot.CaptureState(GetTree().GetNodesInGroup("Ball").Cast<Ball>().Where(n => n.isActive).ToArray(),
@@ -60,7 +60,7 @@ public partial class SceneManager : Node
 
 		ServerManager._instance.Rpc(nameof(ServerManager.ReassignMultiplayerAuthority), -1); // Reassign authority to the first client or server after scene swap
 
-		Rpc(nameof(ExecutePause), pause);
+		Rpc(nameof(ExecutePause), pause, Multiplayer.GetUniqueId()); // Pause the game if requested after scene swap
 
     	GD.Print($"Swapped to scene {scenePath}");
 	}
@@ -68,9 +68,10 @@ public partial class SceneManager : Node
 	public async override void _Ready()
 	{
 		Instance = this;
-		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame); // Wait for the first frame to ensure the scene is fully loaded
+		await ToSignal(GetTree(), SceneTree.SignalName.SceneChanged); // Wait for the scene to change before trying to find nodes to give authority to, since they might not be in the tree yet
 
 		OnlineVSOffline._instance.OnlineModeActivated += SetInitialPauseState;
+		OnlineVSOffline._instance.OfflineModeActivated += OnOfflineModeActivated;
 
 		if(GetTree().CurrentScene != null)
 		{
@@ -82,6 +83,7 @@ public partial class SceneManager : Node
 	public override void _ExitTree()
 	{
 		OnlineVSOffline._instance.OnlineModeActivated -= SetInitialPauseState;
+		OnlineVSOffline._instance.OfflineModeActivated -= OnOfflineModeActivated;
 	}
 
 	public void UpdateCanvasGroups(CanvasLayer menuCanvasLayer)
@@ -146,19 +148,24 @@ public partial class SceneManager : Node
 			}
 		}
 
+		if (!OnlineVSOffline._instance.IsOffline && peerIds.Length <= 0)
+		{
+			shouldPause = true; // If we're online but there's only one player, we should pause until another player joins
+		}
+
         Rpc(nameof(ExecutePause), shouldPause, senderId);
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	private void ExecutePause(bool shouldPause, long senderId)
 	{
-    	GetTree().Paused = shouldPause;
-		GD.Print($"Game {(shouldPause ? "paused" : "unpaused")} by {senderId}");
-		
 		if(!playerShouldBePaused.ContainsKey(senderId)) return; // If we don't have a record of this player's pause state, do nothing
 
+    	GetTree().Paused = shouldPause;
+		GD.Print($"Game {(shouldPause ? "paused" : "unpaused")} by {senderId}");
+
 		if(shouldPause)
-			SpecialUI("PauseMenu", !playerShouldBePaused[Multiplayer.GetUniqueId()]);
+			SpecialUI("PauseMenu", !playerShouldBePaused[Multiplayer.GetUniqueId()]); // Show pause menu if the local player has to wait for the other player(s) to unpause, otherwise hide it
 		else
 			SpecialUI("PauseMenu", false);
 	}
@@ -174,6 +181,14 @@ public partial class SceneManager : Node
 		foreach (var peerId in playerShouldBePaused.Keys.ToList())
 		{
 			playerShouldBePaused[peerId] = true; // Assume all players should be paused until they explicitly unpause
+		}
+	}
+
+	private void OnOfflineModeActivated()
+	{
+		foreach (var peerId in playerShouldBePaused.Keys.ToList())
+		{
+			playerShouldBePaused[peerId] = false; // Unpause all players in offline mode
 		}
 	}
 }

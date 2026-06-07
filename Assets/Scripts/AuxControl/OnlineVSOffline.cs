@@ -6,6 +6,8 @@ public partial class OnlineVSOffline : Node
 	static public OnlineVSOffline _instance;
 	[Signal] public delegate void OnlineModeActivatedEventHandler();
 	[Signal] public delegate void OfflineModeActivatedEventHandler();
+
+	public bool IsOffline {get; private set;} = true;
 	public override void _Ready()
 	{
 		ServerManager._instance.ClientConnected += SwitchOnlineLogic;
@@ -26,9 +28,9 @@ public partial class OnlineVSOffline : Node
 
 	public void SwitchOnlineLogic()
 	{
-		bool isOffline = Multiplayer.MultiplayerPeer is OfflineMultiplayerPeer || Multiplayer.MultiplayerPeer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Disconnected;
+		IsOffline = Multiplayer.MultiplayerPeer is OfflineMultiplayerPeer || Multiplayer.MultiplayerPeer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Disconnected;
 
-		if (isOffline)
+		if (IsOffline)
 		{
 			EmitSignal(nameof(OfflineModeActivated));
 			GD.Print("Running in offline mode.");

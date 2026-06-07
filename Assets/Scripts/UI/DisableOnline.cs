@@ -8,24 +8,23 @@ public partial class DisableOnline : Control
 	public override void _Ready()
 	{
 		parentNode = GetParent() as Control;
-		ServerManager._instance.ClientConnected += OnOnlinePressed;
-		ServerManager._instance.ServerCreated += OnOnlinePressed;
-		ServerManager._instance.OfflineMode += OnOfflinePressed;
+		OnlineVSOffline._instance.OnlineModeActivated += OnOnlinePressed;
+		OnlineVSOffline._instance.OfflineModeActivated += OnOfflinePressed;
 	}
 
 	public override void _ExitTree()
 	{
-		if (ServerManager._instance != null)
+		if (OnlineVSOffline._instance != null)
 		{
-			ServerManager._instance.ClientConnected -= OnOnlinePressed;
-			ServerManager._instance.ServerCreated -= OnOnlinePressed;
-			ServerManager._instance.OfflineMode -= OnOfflinePressed;
+			OnlineVSOffline._instance.OnlineModeActivated -= OnOnlinePressed;
+			OnlineVSOffline._instance.OfflineModeActivated -= OnOfflinePressed;
 		}
 	}
 	public void OnOnlinePressed()
 	{
 		if(parentNode != null)
 		{
+			GD.Print("found parent node, applying online mode settings." + parentNode.Name);
 			parentNode.Modulate = new Color(parentNode.Modulate.R, parentNode.Modulate.G, parentNode.Modulate.B, 0.5f);
 			parentNode.MouseFilter = MouseFilterEnum.Ignore;
 
@@ -43,11 +42,9 @@ public partial class DisableOnline : Control
 				}
 				optionButton.EmitSignal("item_selected", optionButton.Selected);
 			}
-			if(parentNode is Button button)
+			if(parentNode is BaseButton button)
 			{
 				GD.Print("Disabling button for online mode.");
-				button.MouseFilter = MouseFilterEnum.Ignore;
-				button.Modulate = new Color(button.Modulate.R, button.Modulate.G, button.Modulate.B, 0.5f);
 				button.Disabled = true;
 			}
 
@@ -68,7 +65,7 @@ public partial class DisableOnline : Control
 				optionButton.Disabled = false;
 			}
 
-			if(parentNode is Button button)
+			if(parentNode is BaseButton button)
 			{
 				button.Disabled = false;
 				button.MouseFilter = MouseFilterEnum.Stop;
