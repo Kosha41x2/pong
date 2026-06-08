@@ -22,6 +22,8 @@ public partial class ServerManager : Node
 
 	Array<Node> nodesToGiveAuthority = new Array<Node>();
 
+	AdviseText adviseText;
+
 	LineEdit ipField;
 
 	public static ServerManager _instance;
@@ -42,6 +44,7 @@ public partial class ServerManager : Node
 
 		paddle1 = GetTree().GetFirstNodeInGroup("ServerPaddles");
 		nodesToGiveAuthority = GetTree().GetNodesInGroup("ClientAuthority");
+		adviseText = GetTree().GetFirstNodeInGroup("MultiplayerAd") as AdviseText;
 	}
 	override public void _ExitTree()
 	{
@@ -56,6 +59,12 @@ public partial class ServerManager : Node
 
 		if (result != Error.Ok)
 		{
+			if(adviseText != null)
+			{
+				adviseText.SetAdviseText($"Failed to start server on port {PORT}. Error: {result}");
+				adviseText.ShowAdvise();
+				adviseText.FadeOut();
+			}
 			GD.PrintErr("Failed to create server: " + result);
 			return;
 		}
@@ -81,6 +90,12 @@ public partial class ServerManager : Node
 
 		if (result != Error.Ok)
 		{
+			if(adviseText != null)
+			{
+				adviseText.SetAdviseText($"Failed to connect to server at {ipField.Text}:{PORT}. Error: {result}");
+				adviseText.ShowAdvise();
+				adviseText.FadeOut();
+			}
 			GD.PrintErr("Failed to create client: " + result);
 			return;
 		}
@@ -92,9 +107,14 @@ public partial class ServerManager : Node
 
 	public void StartOffline()
 	{
-		bool isOffline = Multiplayer.MultiplayerPeer is OfflineMultiplayerPeer || Multiplayer.MultiplayerPeer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Disconnected;
-		if(isOffline)
+		if(OnlineVSOffline._instance != null && OnlineVSOffline._instance.IsOffline)
 		{
+			if(adviseText != null)
+			{
+				adviseText.SetAdviseText("Already in offline mode.");
+				adviseText.ShowAdvise();
+				adviseText.FadeOut();
+			}
 			GD.Print("Already in offline mode.");
 			return;
 		}
@@ -115,6 +135,12 @@ public partial class ServerManager : Node
 	{
 		GD.Print("Server lost. Returning to offline mode.");
 		StartOffline();
+		if(adviseText != null)
+		{
+			adviseText.SetAdviseText($"Connection lost. Returning to offline mode.");
+			adviseText.ShowAdvise();
+			adviseText.FadeOut();
+		}
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]

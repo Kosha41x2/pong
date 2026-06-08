@@ -23,6 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://2ws6m6bujlh7" path="res://Assets/Prefabs/RedBall.tscn" id="13_rc7cs"]
 [ext_resource type="PackedScene" uid="uid://bq57c6ertq0j5" path="res://Assets/Prefabs/GreenBall.tscn" id="15_ilduj"]
 [ext_resource type="PackedScene" uid="uid://bvs76c5s2hb0a" path="res://Assets/Prefabs/PurpleBall.tscn" id="16_s2xbw"]
+[ext_resource type="Script" uid="uid://cd4io6ntj72pw" path="res://Assets/Scripts/UI/AdviseText.cs" id="24_egg54"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2au82"]
 size = Vector2(1205, 33)
@@ -617,6 +618,23 @@ script = ExtResource("7_c4vo5")
 canvasGroup = NodePath("../../../../CanvasLayer/Menu")
 initialText = "Menu"
 changeText = "Back"
+
+[node name="MultiplayerAdvice" type="RichTextLabel" parent="GamePlay/firstlayer" unique_id=258535050 groups=["MultiplayerAd"]]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -277.0
+offset_top = -186.0
+offset_right = 277.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+bbcode_enabled = true
+script = ExtResource("24_egg54")
+adviseFormat = Array[String](["[center]", "[color=red]", "[font_size=25]"])
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="GamePlay" unique_id=1814704406]
 environment = SubResource("Environment_ixknr")
