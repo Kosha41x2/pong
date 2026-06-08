@@ -59,6 +59,7 @@ public partial class ServerManager : Node
 
 		if (result != Error.Ok)
 		{
+			adviseText = GetTree().GetFirstNodeInGroup("MultiplayerAd") as AdviseText;
 			if(adviseText != null)
 			{
 				adviseText.SetAdviseText($"Failed to start server on port {PORT}. Error: {result}");
@@ -90,6 +91,7 @@ public partial class ServerManager : Node
 
 		if (result != Error.Ok)
 		{
+			adviseText = GetTree().GetFirstNodeInGroup("MultiplayerAd") as AdviseText;
 			if(adviseText != null)
 			{
 				adviseText.SetAdviseText($"Failed to connect to server at {ipField.Text}:{PORT}. Error: {result}");
@@ -109,12 +111,6 @@ public partial class ServerManager : Node
 	{
 		if(OnlineVSOffline._instance != null && OnlineVSOffline._instance.IsOffline)
 		{
-			if(adviseText != null)
-			{
-				adviseText.SetAdviseText("Already in offline mode.");
-				adviseText.ShowAdvise();
-				adviseText.FadeOut();
-			}
 			GD.Print("Already in offline mode.");
 			return;
 		}
@@ -135,6 +131,7 @@ public partial class ServerManager : Node
 	{
 		GD.Print("Server lost. Returning to offline mode.");
 		StartOffline();
+		adviseText = GetTree().GetFirstNodeInGroup("MultiplayerAd") as AdviseText;
 		if(adviseText != null)
 		{
 			adviseText.SetAdviseText($"Connection lost. Returning to offline mode.");
