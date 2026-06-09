@@ -31,27 +31,17 @@ private void OnSecretCodeEntered(string code)
     {
         if(secretSprites.ContainsKey(code) && secretSprites[code] != null && sprite != null)
         {
-            // 1. Get the raw file paths of the textures to see what Godot ACTUALLY loaded
             string currentPath = sprite.Texture != null ? sprite.Texture.ResourcePath : "No Texture";
             string targetPath = secretSprites[code].ResourcePath;
 
-            // Print exactly what Godot sees
-            GD.Print($"[DEBUG] Code typed: {code}");
-            GD.Print($"[DEBUG] Current Sprite Path: {currentPath}");
-            GD.Print($"[DEBUG] Target Sprite Path: {targetPath}");
-
-            // 2. Compare the file paths, NOT the C# objects
             if(currentPath == targetPath)
             {
                 if(secretSprites.ContainsKey(defaultCode) && secretSprites[defaultCode] != null)
                 {
-                    GD.Print("[DEBUG] Paths matched! Reverting to default sprite.");
                     sprite.Texture = secretSprites[defaultCode];
                 }
                 return;
             }
-
-            GD.Print($"[DEBUG] Paths differ. Changing sprite to: {targetPath}");
             sprite.Texture = secretSprites[code];
         }
         else
