@@ -2,12 +2,22 @@
 
 [ext_resource type="Script" uid="uid://bvsaurr3xjgxa" path="res://Assets/Scripts/Player/PlayerData.cs" id="1_qqa3f"]
 [ext_resource type="Script" uid="uid://dkmqdshigwso8" path="res://Assets/Scripts/Player/MoveP.cs" id="1_yepln"]
-[ext_resource type="Texture2D" uid="uid://l8bw6lcaqpwd" path="res://Assets/sprites/paddle.jpg" id="2_64e7q"]
 [ext_resource type="Script" uid="uid://m6nuxjub1vd8" path="res://Assets/Scripts/Player/DamageHandle.cs" id="3_617b0"]
 [ext_resource type="Script" uid="uid://b10boivrtoer6" path="res://Assets/Scripts/Player/ColorController.cs" id="4_1e55f"]
+[ext_resource type="Texture2D" uid="uid://wvpoiqusfhtp" path="res://Assets/sprites/FruitSprites/fruitPaddle.jpg" id="5_31k2i"]
+[ext_resource type="Script" uid="uid://bm2hahldpv8ta" path="res://Assets/Scripts/SecretCodesChanges/SpriteChange.cs" id="5_ydfdc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_myinc"]
 size = Vector2(195.14656, 406.7293)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1e55f"]
+load_path = "res://.godot/imported/paddle.jpg-12db7dd8b8326260b5eacc8c4c16620c.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ydfdc"]
+load_path = "res://.godot/imported/paddle.jpg-12db7dd8b8326260b5eacc8c4c16620c.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_31k2i"]
+load_path = "res://.godot/imported/catPaddle.jpg-b972b3334e97e9f1641724f2c4ee3ef8.ctex"
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qqa3f"]
 properties/0/path = NodePath(".:position")
@@ -32,10 +42,18 @@ shape = SubResource("RectangleShape2D_myinc")
 one_way_collision_margin = 0.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=34132164]
-texture = ExtResource("2_64e7q")
+texture = SubResource("CompressedTexture2D_1e55f")
 
 [node name="ControlColor" type="Node2D" parent="Sprite2D" unique_id=1461741050]
 script = ExtResource("4_1e55f")
+
+[node name="SpriteChange" type="Node" parent="Sprite2D" unique_id=992324280]
+script = ExtResource("5_ydfdc")
+secretSprites = Dictionary[String, Texture2D]({
+"default": SubResource("CompressedTexture2D_ydfdc"),
+"fruit": ExtResource("5_31k2i"),
+"kitten": SubResource("CompressedTexture2D_31k2i")
+})
 
 [node name="DamageHandler" type="Node2D" parent="." unique_id=1486152322]
 script = ExtResource("3_617b0")

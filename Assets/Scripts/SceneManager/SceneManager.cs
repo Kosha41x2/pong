@@ -148,7 +148,7 @@ public partial class SceneManager : Node
 			}
 		}
 
-		if (!OnlineVSOffline._instance.IsOffline && peerIds.Length <= 0)
+		if (OnlineVSOffline._instance != null && !OnlineVSOffline._instance.IsOffline && peerIds.Length <= 0)
 		{
 			shouldPause = true; // If we're online but there's only one player, we should pause until another player joins
 		}

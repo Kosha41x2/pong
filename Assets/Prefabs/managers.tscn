@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bi0o0xjhvt3dn" path="res://Assets/Scripts/SceneManager/SceneManager.cs" id="1_a0uu4"]
 [ext_resource type="Script" uid="uid://cikbfsmytpwiw" path="res://Assets/Scripts/AuxControl/Settings.cs" id="2_wxrtv"]
 [ext_resource type="Script" uid="uid://d4e1ja86bak58" path="res://Assets/Scripts/AuxControl/ServerManager.cs" id="3_wxrtv"]
+[ext_resource type="Script" uid="uid://xgowtovbsqa1" path="res://Assets/Scripts/AuxControl/SecretCodes.cs" id="4_kixq5"]
 
 [node name="Managers" type="Node2D" unique_id=8290955]
 process_mode = 3
@@ -15,3 +16,10 @@ script = ExtResource("2_wxrtv")
 
 [node name="ServerManager" type="Node2D" parent="." unique_id=516780784]
 script = ExtResource("3_wxrtv")
+
+[node name="SecretCodeManager" type="Node2D" parent="." unique_id=1804351081]
+script = ExtResource("4_kixq5")
+secretCodes = Dictionary[String, bool]({
+"fruit": false,
+"kitten": false
+})

@@ -1,7 +1,10 @@
 [gd_scene format=3 uid="uid://dqypnr30mq3v0"]
 
 [ext_resource type="Script" uid="uid://emplkkw8lb6k" path="res://Assets/Scripts/Ball/Ball.cs" id="1_j26x2"]
-[ext_resource type="Texture2D" uid="uid://b4u6ao4pmp1nr" path="res://Assets/sprites/ball.jpg" id="2_dlyt2"]
+[ext_resource type="Texture2D" uid="uid://d01myhscqcth7" path="res://Assets/sprites/ball.jpg" id="2_dlyt2"]
+[ext_resource type="Script" uid="uid://bm2hahldpv8ta" path="res://Assets/Scripts/SecretCodesChanges/SpriteChange.cs" id="3_3naxy"]
+[ext_resource type="Texture2D" uid="uid://bkpnjx4g7oekn" path="res://Assets/sprites/FruitSprites/fruitBall.jpg" id="4_uigdb"]
+[ext_resource type="Texture2D" uid="uid://5lfvdbxt8105" path="res://Assets/sprites/CatSprites/catBall.jpg" id="4_vyu58"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_myinc"]
 size = Vector2(154, 156)
@@ -15,3 +18,11 @@ shape = SubResource("RectangleShape2D_myinc")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=214947722]
 texture = ExtResource("2_dlyt2")
+
+[node name="SpriteChange" type="Node" parent="Sprite2D" unique_id=1451962553]
+script = ExtResource("3_3naxy")
+secretSprites = Dictionary[String, Texture2D]({
+"default": ExtResource("2_dlyt2"),
+"fruit": ExtResource("4_uigdb"),
+"kitten": ExtResource("4_vyu58")
+})

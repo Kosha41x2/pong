@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://cp7g1u0k6a1f3" path="res://Assets/Scripts/UI/CopySettingsToUI.cs" id="3_vwb7u"]
 [ext_resource type="Script" uid="uid://lyi23jaxt6py" path="res://Assets/Scripts/UI/Marker.cs" id="4_8tn2x"]
 [ext_resource type="Script" uid="uid://be18nlgc8fg44" path="res://Assets/Scripts/AuxControl/OnlineVSOffline.cs" id="4_ctmup"]
-[ext_resource type="AudioStream" uid="uid://46g57c8ia0dj" path="res://Assets/Music/Main Theme.mp3" id="5_aq4fw"]
+[ext_resource type="AudioStream" uid="uid://b1jufihgmm6fb" path="res://Assets/Music/Main Theme.mp3" id="5_aq4fw"]
 [ext_resource type="PackedScene" uid="uid://btagjraev2506" path="res://Assets/Prefabs/UI/hide_when_client.tscn" id="5_iw7q2"]
 [ext_resource type="Script" uid="uid://ckre288t2lubu" path="res://Assets/Scripts/UI/Button/SceneSwapper.cs" id="6_d1b21"]
 [ext_resource type="Script" uid="uid://cd0sywak8iyg5" path="res://Assets/Scripts/UI/ToggleVisibility.cs" id="6_qs82m"]
@@ -19,8 +19,9 @@
 [ext_resource type="PackedScene" uid="uid://1mnh6s5jyjmb" path="res://Assets/Prefabs/YellowBall.tscn" id="11_rc7cs"]
 [ext_resource type="PackedScene" uid="uid://bwpx8omkjsk28" path="res://Assets/Prefabs/UI/disable_online.tscn" id="11_xyx0r"]
 [ext_resource type="Script" uid="uid://ddqmq6geaemad" path="res://Assets/Scripts/UI/ShowSelectedNode.cs" id="12_ixknr"]
-[ext_resource type="Script" uid="uid://0833vniv3idx" path="res://ChangeTextDependingOnOnline.cs" id="13_q8vq6"]
+[ext_resource type="Script" uid="uid://0833vniv3idx" path="res://Assets/Scripts/UI/ChangeTextDependingOnOnline.cs" id="13_q8vq6"]
 [ext_resource type="PackedScene" uid="uid://2ws6m6bujlh7" path="res://Assets/Prefabs/RedBall.tscn" id="13_rc7cs"]
+[ext_resource type="Texture2D" uid="uid://dlp47dqtab6hy" path="res://Assets/sprites/paddle.jpg" id="14_f3qia"]
 [ext_resource type="PackedScene" uid="uid://bq57c6ertq0j5" path="res://Assets/Prefabs/GreenBall.tscn" id="15_ilduj"]
 [ext_resource type="PackedScene" uid="uid://bvs76c5s2hb0a" path="res://Assets/Prefabs/PurpleBall.tscn" id="16_s2xbw"]
 [ext_resource type="Script" uid="uid://cd4io6ntj72pw" path="res://Assets/Scripts/UI/AdviseText.cs" id="24_egg54"]
@@ -422,10 +423,14 @@ PlayerN = 1
 inputSuffix = "p2"
 
 [node name="Sprite2D" parent="GamePlay/Player2" index="2" unique_id=34132164]
+texture = ExtResource("14_f3qia")
 flip_h = true
 
 [node name="Player1" parent="GamePlay" unique_id=349456793 instance=ExtResource("1_njov2")]
 position = Vector2(500, 0)
+
+[node name="Sprite2D" parent="GamePlay/Player1" index="2" unique_id=34132164]
+texture = ExtResource("14_f3qia")
 
 [node name="DamageHandler" parent="GamePlay/Player1" index="3" unique_id=1486152322]
 playerN = 1
