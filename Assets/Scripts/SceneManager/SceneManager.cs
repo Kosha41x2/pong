@@ -178,7 +178,7 @@ public partial class SceneManager : Node
 
 	private void SetInitialPauseState()
 	{
-		foreach (var peerId in playerShouldBePaused.Keys.ToList())
+		foreach (var peerId in Multiplayer.GetPeers())
 		{
 			playerShouldBePaused[peerId] = true; // Assume all players should be paused until they explicitly unpause
 		}
@@ -186,9 +186,7 @@ public partial class SceneManager : Node
 
 	private void OnOfflineModeActivated()
 	{
-		foreach (var peerId in playerShouldBePaused.Keys.ToList())
-		{
-			playerShouldBePaused[peerId] = false; // Unpause all players in offline mode
-		}
+		playerShouldBePaused.Clear(); // Clear all pause states since we're switching to offline mode
+		playerShouldBePaused[Multiplayer.GetUniqueId()] = false; // Unpause the local player in offline mode
 	}
 }
