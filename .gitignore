@@ -1,3 +1,26 @@
+.gitignore.txt
+@@ -1,24 +0,0 @@
 # Godot 4+ specific ignores
 .godot/
-/android/
+
+# Godot 3 specific ignores
+.import/
+
+# Exports
+export.cfg
+
+# Mono / C# specific ignores
+.mono/
+data_*/
+mono_crash.*.json
+*.csproj.user
+
+# Mac / Windows OS specific files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE specific files
+.vscode/
+.idea/
+*.sln
